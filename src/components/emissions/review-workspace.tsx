@@ -293,14 +293,14 @@ export function ReviewWorkspace({
                   {selectedDocName.toLowerCase().endsWith(".pdf") ? (
                     <iframe
                       src={docUrl}
-                      className="h-[360px] w-full rounded border"
+                      className="h-90 w-full rounded border"
                       title={selectedDocName}
                     />
                   ) : (
                     <img
                       src={docUrl}
                       alt={selectedDocName}
-                      className="max-h-[360px] rounded border object-contain"
+                      className="max-h-90 rounded border object-contain"
                     />
                   )}
                   <div className="mt-2">

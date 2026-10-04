@@ -189,7 +189,7 @@ export function AuditorConsole({ entries }: { entries: AuditEntryItem[] }) {
             value={siteFilter}
             onValueChange={(val) => val && setSiteFilter(val)}
           >
-            <SelectTrigger className="h-9 min-w-[140px] text-xs">
+            <SelectTrigger className="h-9 min-w-35 text-xs">
               <SelectValue>
                 {siteFilter === "ALL"
                   ? "All Sites"
@@ -210,7 +210,7 @@ export function AuditorConsole({ entries }: { entries: AuditEntryItem[] }) {
             value={statusFilter}
             onValueChange={(val) => val && setStatusFilter(val)}
           >
-            <SelectTrigger className="h-9 w-[130px] text-xs">
+            <SelectTrigger className="h-9 w-32.5 text-xs">
               <SelectValue>
                 {statusFilter === "ALL"
                   ? "All Statuses"
@@ -297,7 +297,7 @@ export function AuditorConsole({ entries }: { entries: AuditEntryItem[] }) {
                         }
                       >
                         <FileText className="h-3 w-3" />
-                        <span className="max-w-[80px] truncate">
+                        <span className="max-w-20 truncate">
                           {item.document.originalName}
                         </span>
                       </Button>
@@ -412,14 +412,14 @@ export function AuditorConsole({ entries }: { entries: AuditEntryItem[] }) {
                 {docName.toLowerCase().endsWith(".pdf") ? (
                   <iframe
                     src={docUrl}
-                    className="h-[400px] w-full rounded border-0"
+                    className="h-100 w-full rounded border-0"
                     title={docName}
                   />
                 ) : (
                   <img
                     src={docUrl}
                     alt={docName}
-                    className="max-h-[400px] rounded object-contain"
+                    className="max-h-100 rounded object-contain"
                   />
                 )}
                 <div className="mt-2">
