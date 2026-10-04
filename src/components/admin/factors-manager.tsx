@@ -52,13 +52,17 @@ export function FactorsManager({ factors }: { factors: FactorItem[] }) {
   const [openCreate, setOpenCreate] = useState(false);
   const [editingFactor, setEditingFactor] = useState<FactorItem | null>(null);
 
-  const [scope, setScope] = useState<"SCOPE_1" | "SCOPE_2" | "SCOPE_3">("SCOPE_1");
+  const [scope, setScope] = useState<"SCOPE_1" | "SCOPE_2" | "SCOPE_3">(
+    "SCOPE_1",
+  );
   const [category, setCategory] = useState("");
   const [unit, setUnit] = useState("");
   const [kgCo2ePerUnit, setKgCo2ePerUnit] = useState("");
   const [authority, setAuthority] = useState("");
   const [version, setVersion] = useState("2026-v1");
-  const [validFrom, setValidFrom] = useState(new Date().toISOString().split("T")[0]);
+  const [validFrom, setValidFrom] = useState(
+    new Date().toISOString().split("T")[0],
+  );
   const [validTo, setValidTo] = useState("");
 
   const [editUnit, setEditUnit] = useState("");
@@ -153,20 +157,17 @@ export function FactorsManager({ factors }: { factors: FactorItem[] }) {
         </Alert>
       )}
 
-      <div className="flex justify-between items-center">
-        <div className="text-xs text-muted-foreground">
+      <div className="flex items-center justify-between">
+        <div className="text-muted-foreground text-xs">
           {factors.length} registered emission factors
         </div>
-        <Button
-          size="sm"
-          onClick={() => setOpenCreate(true)}
-        >
-          <Plus className="h-4 w-4 mr-1.5" />
+        <Button size="sm" onClick={() => setOpenCreate(true)}>
+          <Plus className="mr-1.5 h-4 w-4" />
           Add Factor Version
         </Button>
       </div>
 
-      <div className="rounded-lg border bg-card overflow-hidden">
+      <div className="bg-card overflow-hidden rounded-lg border">
         <Table>
           <TableHeader>
             <TableRow>
@@ -189,19 +190,23 @@ export function FactorsManager({ factors }: { factors: FactorItem[] }) {
                     {f.scope.replace("_", " ")}
                   </Badge>
                 </TableCell>
-                <TableCell className="font-medium text-xs">
+                <TableCell className="text-xs font-medium">
                   {f.category}
                 </TableCell>
                 <TableCell className="font-mono text-xs">{f.unit}</TableCell>
-                <TableCell className="font-mono font-semibold text-xs">
+                <TableCell className="font-mono text-xs font-semibold">
                   {f.kgCo2ePerUnit}
                 </TableCell>
-                <TableCell className="text-xs text-muted-foreground">{f.authority}</TableCell>
-                <TableCell className="font-mono text-[11px] text-muted-foreground">
+                <TableCell className="text-muted-foreground text-xs">
+                  {f.authority}
+                </TableCell>
+                <TableCell className="text-muted-foreground font-mono text-[11px]">
                   {f.version}
                 </TableCell>
-                <TableCell className="text-xs text-muted-foreground">{f.validFrom}</TableCell>
-                <TableCell className="text-xs text-muted-foreground">
+                <TableCell className="text-muted-foreground text-xs">
+                  {f.validFrom}
+                </TableCell>
+                <TableCell className="text-muted-foreground text-xs">
                   {f.validTo || "Active"}
                 </TableCell>
                 <TableCell className="text-right">
@@ -211,7 +216,7 @@ export function FactorsManager({ factors }: { factors: FactorItem[] }) {
                     onClick={() => startEdit(f)}
                     className="h-7 text-xs"
                   >
-                    <Edit2 className="h-3 w-3 mr-1" />
+                    <Edit2 className="mr-1 h-3 w-3" />
                     Edit
                   </Button>
                 </TableCell>
@@ -243,13 +248,21 @@ export function FactorsManager({ factors }: { factors: FactorItem[] }) {
                   >
                     <SelectTrigger id="scopeSelect">
                       <SelectValue>
-                        {scope === "SCOPE_1" ? "Scope 1 (Direct)" : scope === "SCOPE_2" ? "Scope 2 (Electricity)" : "Scope 3 (Value Chain)"}
+                        {scope === "SCOPE_1"
+                          ? "Scope 1 (Direct)"
+                          : scope === "SCOPE_2"
+                            ? "Scope 2 (Electricity)"
+                            : "Scope 3 (Value Chain)"}
                       </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="SCOPE_1">Scope 1 (Direct)</SelectItem>
-                      <SelectItem value="SCOPE_2">Scope 2 (Electricity)</SelectItem>
-                      <SelectItem value="SCOPE_3">Scope 3 (Value Chain)</SelectItem>
+                      <SelectItem value="SCOPE_2">
+                        Scope 2 (Electricity)
+                      </SelectItem>
+                      <SelectItem value="SCOPE_3">
+                        Scope 3 (Value Chain)
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -337,14 +350,10 @@ export function FactorsManager({ factors }: { factors: FactorItem[] }) {
               >
                 Cancel
               </Button>
-              <Button
-                type="submit"
-                size="sm"
-                disabled={isPending}
-              >
+              <Button type="submit" size="sm" disabled={isPending}>
                 {isPending ? (
                   <>
-                    <Loader2 className="h-3.5 w-3.5 mr-1 animate-spin" />
+                    <Loader2 className="mr-1 h-3.5 w-3.5 animate-spin" />
                     Saving...
                   </>
                 ) : (
@@ -356,7 +365,10 @@ export function FactorsManager({ factors }: { factors: FactorItem[] }) {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={!!editingFactor} onOpenChange={(open) => !open && setEditingFactor(null)}>
+      <Dialog
+        open={!!editingFactor}
+        onOpenChange={(open) => !open && setEditingFactor(null)}
+      >
         <DialogContent>
           <form onSubmit={handleSaveEdit}>
             <DialogHeader>
@@ -446,14 +458,10 @@ export function FactorsManager({ factors }: { factors: FactorItem[] }) {
               >
                 Cancel
               </Button>
-              <Button
-                type="submit"
-                size="sm"
-                disabled={isPending}
-              >
+              <Button type="submit" size="sm" disabled={isPending}>
                 {isPending ? (
                   <>
-                    <Loader2 className="h-3.5 w-3.5 mr-1 animate-spin" />
+                    <Loader2 className="mr-1 h-3.5 w-3.5 animate-spin" />
                     Saving...
                   </>
                 ) : (

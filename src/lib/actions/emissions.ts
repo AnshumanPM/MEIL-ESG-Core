@@ -43,7 +43,7 @@ export async function createEmissionEntry(data: {
 
   if (fy.length > 0 && fy[0].lockedAt) {
     throw new Error(
-      `Financial year ${data.financialYear} is locked. No new entries can be added.`
+      `Financial year ${data.financialYear} is locked. No new entries can be added.`,
     );
   }
 
@@ -68,7 +68,9 @@ export async function createEmissionEntry(data: {
   const tco2e = ((qty * factorNum) / 1000).toFixed(6);
 
   if (!data.document || !data.document.storageKey || !data.document.sha256) {
-    throw new Error("Proof document is mandatory. No entry can be saved without evidence.");
+    throw new Error(
+      "Proof document is mandatory. No entry can be saved without evidence.",
+    );
   }
 
   const result = await db.transaction(async (tx) => {
@@ -139,7 +141,7 @@ export async function updateDraftEntry(
       docType?: string;
       invoiceNumber?: string;
     } | null;
-  }
+  },
 ) {
   const ctx = await requireSiteContext();
 
@@ -149,8 +151,8 @@ export async function updateDraftEntry(
     .where(
       and(
         eq(emissionEntries.id, entryId),
-        eq(emissionEntries.siteId, ctx.site.id)
-      )
+        eq(emissionEntries.siteId, ctx.site.id),
+      ),
     )
     .limit(1);
 
@@ -210,8 +212,11 @@ export async function updateDraftEntry(
             sha256: data.document.sha256,
             storageKey: data.document.storageKey,
             sizeBytes: data.document.sizeBytes ?? 0,
-            docType: (data.document.docType || data.docType || "OTHER_PROOF") as any,
-            invoiceNumber: data.document.invoiceNumber ?? data.invoiceNumber ?? null,
+            docType: (data.document.docType ||
+              data.docType ||
+              "OTHER_PROOF") as any,
+            invoiceNumber:
+              data.document.invoiceNumber ?? data.invoiceNumber ?? null,
           })
           .where(eq(documents.id, existingDoc.id));
       } else {
@@ -223,8 +228,11 @@ export async function updateDraftEntry(
           sizeBytes: data.document.sizeBytes ?? 0,
           sha256: data.document.sha256,
           storageKey: data.document.storageKey,
-          docType: (data.document.docType || data.docType || "OTHER_PROOF") as any,
-          invoiceNumber: data.document.invoiceNumber ?? data.invoiceNumber ?? null,
+          docType: (data.document.docType ||
+            data.docType ||
+            "OTHER_PROOF") as any,
+          invoiceNumber:
+            data.document.invoiceNumber ?? data.invoiceNumber ?? null,
           uploadedBy: ctx.userId,
         });
       }
@@ -233,7 +241,9 @@ export async function updateDraftEntry(
         .update(documents)
         .set({
           ...(data.docType ? { docType: data.docType as any } : {}),
-          ...(data.invoiceNumber !== undefined ? { invoiceNumber: data.invoiceNumber } : {}),
+          ...(data.invoiceNumber !== undefined
+            ? { invoiceNumber: data.invoiceNumber }
+            : {}),
         })
         .where(eq(documents.entryId, entryId));
     }
@@ -260,8 +270,8 @@ export async function submitSingleEntryAction(entryId: string) {
     .where(
       and(
         eq(emissionEntries.id, entryId),
-        eq(emissionEntries.siteId, ctx.site.id)
-      )
+        eq(emissionEntries.siteId, ctx.site.id),
+      ),
     )
     .limit(1);
 
@@ -300,7 +310,7 @@ export async function submitSingleEntryAction(entryId: string) {
 
 export async function submitMonthEntries(
   financialYear: string,
-  monthPrefix?: string
+  monthPrefix?: string,
 ) {
   const ctx = await requireSiteContext();
 
@@ -321,8 +331,8 @@ export async function submitMonthEntries(
       and(
         eq(emissionEntries.siteId, ctx.site.id),
         eq(emissionEntries.financialYear, financialYear),
-        inArray(emissionEntries.status, ["DRAFT", "REJECTED"])
-      )
+        inArray(emissionEntries.status, ["DRAFT", "REJECTED"]),
+      ),
     );
 
   if (entriesToSubmit.length === 0) {
@@ -332,8 +342,8 @@ export async function submitMonthEntries(
       .where(
         and(
           eq(emissionEntries.siteId, ctx.site.id),
-          inArray(emissionEntries.status, ["DRAFT", "REJECTED"])
-        )
+          inArray(emissionEntries.status, ["DRAFT", "REJECTED"]),
+        ),
       );
   }
 
@@ -370,7 +380,7 @@ export async function submitMonthEntries(
 export async function reviewSubmissionAction(
   entryIds: string[],
   action: "APPROVE" | "REJECT",
-  reason?: string
+  reason?: string,
 ) {
   const ctx = await getAuthContext();
 
@@ -410,7 +420,7 @@ export async function reviewSubmissionAction(
     for (const s of siteRows) {
       if (!ctx.buIds.includes(s.buId)) {
         throw new Error(
-          `Unauthorized: You are not assigned to review Business Unit ${s.buId}`
+          `Unauthorized: You are not assigned to review Business Unit ${s.buId}`,
         );
       }
     }
@@ -451,7 +461,7 @@ export async function reviewSubmissionAction(
 export async function auditVerifyAction(
   entryId: string,
   auditStatus: "VERIFIED" | "FLAGGED",
-  comment?: string
+  comment?: string,
 ) {
   const ctx = await getAuthContext();
 
@@ -492,7 +502,7 @@ export async function updateFyConfigAction(
   financialYear: string,
   turnoverInrCr: string,
   assuranceDone: boolean,
-  assuranceAgency?: string
+  assuranceAgency?: string,
 ) {
   const ctx = await getAuthContext();
 
@@ -500,7 +510,9 @@ export async function updateFyConfigAction(
     ctx.orgRole !== "org:corporate_admin" &&
     ctx.orgRole !== "corporate_admin"
   ) {
-    throw new Error("Permission denied: Corporate Admin authorization required");
+    throw new Error(
+      "Permission denied: Corporate Admin authorization required",
+    );
   }
 
   await db
@@ -538,7 +550,9 @@ export async function lockFinancialYearAction(financialYear: string) {
     ctx.orgRole !== "org:corporate_admin" &&
     ctx.orgRole !== "corporate_admin"
   ) {
-    throw new Error("Permission denied: Corporate Admin authorization required");
+    throw new Error(
+      "Permission denied: Corporate Admin authorization required",
+    );
   }
 
   const now = new Date();
@@ -564,8 +578,8 @@ export async function lockFinancialYearAction(financialYear: string) {
       .where(
         and(
           eq(emissionEntries.financialYear, financialYear),
-          eq(emissionEntries.status, "APPROVED")
-        )
+          eq(emissionEntries.status, "APPROVED"),
+        ),
       );
 
     await tx.insert(auditLog).values({
@@ -598,7 +612,9 @@ export async function createEmissionFactorAction(data: {
     ctx.orgRole !== "org:corporate_admin" &&
     ctx.orgRole !== "corporate_admin"
   ) {
-    throw new Error("Permission denied: Corporate Admin authorization required");
+    throw new Error(
+      "Permission denied: Corporate Admin authorization required",
+    );
   }
 
   const [inserted] = await db
@@ -638,7 +654,9 @@ export async function createSiteAction(data: {
     ctx.orgRole !== "org:corporate_admin" &&
     ctx.orgRole !== "corporate_admin"
   ) {
-    throw new Error("Permission denied: Corporate Admin authorization required");
+    throw new Error(
+      "Permission denied: Corporate Admin authorization required",
+    );
   }
 
   await db.insert(sites).values({
@@ -669,7 +687,7 @@ export async function updateEmissionFactorAction(
     version: string;
     validFrom: string;
     validTo?: string | null;
-  }
+  },
 ) {
   const ctx = await getAuthContext();
 
@@ -677,7 +695,9 @@ export async function updateEmissionFactorAction(
     ctx.orgRole !== "org:corporate_admin" &&
     ctx.orgRole !== "corporate_admin"
   ) {
-    throw new Error("Permission denied: Corporate Admin authorization required");
+    throw new Error(
+      "Permission denied: Corporate Admin authorization required",
+    );
   }
 
   await db
@@ -709,7 +729,7 @@ export async function updateSiteAction(
     buId: string;
     stateCode: string;
     active: boolean;
-  }
+  },
 ) {
   const ctx = await getAuthContext();
 
@@ -717,7 +737,9 @@ export async function updateSiteAction(
     ctx.orgRole !== "org:corporate_admin" &&
     ctx.orgRole !== "corporate_admin"
   ) {
-    throw new Error("Permission denied: Corporate Admin authorization required");
+    throw new Error(
+      "Permission denied: Corporate Admin authorization required",
+    );
   }
 
   await db
@@ -739,4 +761,3 @@ export async function updateSiteAction(
   revalidatePath("/dashboard/admin/sites");
   return { success: true };
 }
-

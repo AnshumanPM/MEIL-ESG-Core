@@ -146,20 +146,17 @@ export function SitesManager({
         </Alert>
       )}
 
-      <div className="flex justify-between items-center">
-        <div className="text-xs text-muted-foreground">
+      <div className="flex items-center justify-between">
+        <div className="text-muted-foreground text-xs">
           {sites.length} project sites
         </div>
-        <Button
-          size="sm"
-          onClick={() => setOpenCreate(true)}
-        >
-          <Plus className="h-4 w-4 mr-1.5" />
+        <Button size="sm" onClick={() => setOpenCreate(true)}>
+          <Plus className="mr-1.5 h-4 w-4" />
           Register Project Site
         </Button>
       </div>
 
-      <div className="rounded-lg border bg-card overflow-hidden">
+      <div className="bg-card overflow-hidden rounded-lg border">
         <Table>
           <TableHeader>
             <TableRow>
@@ -178,16 +175,16 @@ export function SitesManager({
                 <TableCell className="font-mono text-xs font-semibold">
                   {s.id}
                 </TableCell>
-                <TableCell className="font-medium text-xs">
-                  {s.name}
-                </TableCell>
+                <TableCell className="text-xs font-medium">{s.name}</TableCell>
                 <TableCell>
                   <Badge variant="outline" className="text-[10px]">
                     {s.buId}
                   </Badge>
                 </TableCell>
-                <TableCell className="font-mono text-xs">{s.stateCode}</TableCell>
-                <TableCell className="font-mono text-[11px] text-muted-foreground">
+                <TableCell className="font-mono text-xs">
+                  {s.stateCode}
+                </TableCell>
+                <TableCell className="text-muted-foreground font-mono text-[11px]">
                   {s.clerkOrgId}
                 </TableCell>
                 <TableCell>
@@ -205,7 +202,7 @@ export function SitesManager({
                     onClick={() => startEdit(s)}
                     className="h-7 text-xs"
                   >
-                    <Edit2 className="h-3 w-3 mr-1" />
+                    <Edit2 className="mr-1 h-3 w-3" />
                     Edit
                   </Button>
                 </TableCell>
@@ -276,10 +273,13 @@ export function SitesManager({
 
               <div className="space-y-1.5">
                 <Label htmlFor="buSelect">Business Unit</Label>
-                <Select value={buId} onValueChange={(val) => val && setBuId(val)}>
+                <Select
+                  value={buId}
+                  onValueChange={(val) => val && setBuId(val)}
+                >
                   <SelectTrigger id="buSelect">
                     <SelectValue>
-                      {businessUnits.find(b => b.id === buId)?.name || buId}
+                      {businessUnits.find((b) => b.id === buId)?.name || buId}
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
@@ -302,14 +302,10 @@ export function SitesManager({
               >
                 Cancel
               </Button>
-              <Button
-                type="submit"
-                size="sm"
-                disabled={isPending}
-              >
+              <Button type="submit" size="sm" disabled={isPending}>
                 {isPending ? (
                   <>
-                    <Loader2 className="h-3.5 w-3.5 mr-1 animate-spin" />
+                    <Loader2 className="mr-1 h-3.5 w-3.5 animate-spin" />
                     Registering...
                   </>
                 ) : (
@@ -321,7 +317,10 @@ export function SitesManager({
         </DialogContent>
       </Dialog>
 
-      <Dialog open={!!editingSite} onOpenChange={(open) => !open && setEditingSite(null)}>
+      <Dialog
+        open={!!editingSite}
+        onOpenChange={(open) => !open && setEditingSite(null)}
+      >
         <DialogContent>
           <form onSubmit={handleSaveEdit}>
             <DialogHeader>
@@ -347,10 +346,14 @@ export function SitesManager({
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
                   <Label htmlFor="editSiteBu">Business Unit</Label>
-                  <Select value={editBuId} onValueChange={(val) => val && setEditBuId(val)}>
+                  <Select
+                    value={editBuId}
+                    onValueChange={(val) => val && setEditBuId(val)}
+                  >
                     <SelectTrigger id="editSiteBu">
                       <SelectValue>
-                        {businessUnits.find(b => b.id === editBuId)?.name || editBuId}
+                        {businessUnits.find((b) => b.id === editBuId)?.name ||
+                          editBuId}
                       </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
@@ -376,7 +379,10 @@ export function SitesManager({
 
               <div className="space-y-1.5">
                 <Label htmlFor="editSiteActive">Operational Status</Label>
-                <Select value={editActive} onValueChange={(val) => val && setEditActive(val)}>
+                <Select
+                  value={editActive}
+                  onValueChange={(val) => val && setEditActive(val)}
+                >
                   <SelectTrigger id="editSiteActive">
                     <SelectValue>
                       {editActive === "true" ? "Active" : "Inactive"}
@@ -399,14 +405,10 @@ export function SitesManager({
               >
                 Cancel
               </Button>
-              <Button
-                type="submit"
-                size="sm"
-                disabled={isPending}
-              >
+              <Button type="submit" size="sm" disabled={isPending}>
                 {isPending ? (
                   <>
-                    <Loader2 className="h-3.5 w-3.5 mr-1 animate-spin" />
+                    <Loader2 className="mr-1 h-3.5 w-3.5 animate-spin" />
                     Saving...
                   </>
                 ) : (

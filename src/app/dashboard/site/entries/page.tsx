@@ -13,13 +13,7 @@ export default async function SiteEntriesPage() {
   const ctx = await getAuthContext();
 
   if (!ctx.site) {
-    return (
-      <HqNotice
-        orgId={ctx.orgId}
-        isHq={ctx.isHq}
-        orgRole={ctx.orgRole}
-      />
-    );
+    return <HqNotice orgId={ctx.orgId} isHq={ctx.isHq} orgRole={ctx.orgRole} />;
   }
 
   const site = ctx.site;
@@ -87,19 +81,17 @@ export default async function SiteEntriesPage() {
   const isManager = true;
 
   return (
-    <div className="space-y-4 max-w-7xl">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border pb-3">
+    <div className="max-w-7xl space-y-4">
+      <div className="border-border flex flex-col justify-between gap-3 border-b pb-3 sm:flex-row sm:items-center">
         <div>
-          <div className="flex items-center gap-2 mb-1">
+          <div className="mb-1 flex items-center gap-2">
             <Badge variant="outline" className="font-mono text-xs">
               {site.id}
             </Badge>
             <Badge variant="secondary">Ledger</Badge>
           </div>
-          <h1 className="text-xl font-bold tracking-tight">
-            Emissions Ledger
-          </h1>
-          <p className="text-xs text-muted-foreground mt-0.5">
+          <h1 className="text-xl font-bold tracking-tight">Emissions Ledger</h1>
+          <p className="text-muted-foreground mt-0.5 text-xs">
             {site.name} ({site.id})
           </p>
         </div>
@@ -107,13 +99,13 @@ export default async function SiteEntriesPage() {
         <div className="flex items-center gap-2.5">
           <Button asChild>
             <Link href="/dashboard/site/entries/new">
-              <FilePlus2 className="h-4 w-4 mr-1.5" />
+              <FilePlus2 className="mr-1.5 h-4 w-4" />
               Log Entry
             </Link>
           </Button>
           <Button asChild variant="outline">
             <Link href="/dashboard/site/submit">
-              <Send className="h-4 w-4 mr-1.5" />
+              <Send className="mr-1.5 h-4 w-4" />
               Submit Month
             </Link>
           </Button>

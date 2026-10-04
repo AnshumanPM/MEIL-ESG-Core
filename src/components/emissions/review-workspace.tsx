@@ -2,12 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -74,10 +69,10 @@ export function ReviewWorkspace({
   const [isPending, startTransition] = useTransition();
 
   const [selectedDocId, setSelectedDocId] = useState<string | null>(
-    entries[0]?.document?.id || null
+    entries[0]?.document?.id || null,
   );
   const [selectedDocName, setSelectedDocName] = useState<string>(
-    entries[0]?.document?.originalName || ""
+    entries[0]?.document?.originalName || "",
   );
   const [docUrl, setDocUrl] = useState<string | null>(null);
   const [docLoading, setDocLoading] = useState(false);
@@ -170,7 +165,7 @@ export function ReviewWorkspace({
         </Alert>
       )}
 
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-card border border-border rounded-lg p-3">
+      <div className="bg-card border-border flex flex-col justify-between gap-3 rounded-lg border p-3 sm:flex-row sm:items-center">
         <div className="text-xs font-medium">
           {entries.length} entries &bull; {totalTco2e} tCO₂e
         </div>
@@ -182,23 +177,19 @@ export function ReviewWorkspace({
             disabled={isPending}
             onClick={() => setRejectDialogOpen(true)}
           >
-            <XCircle className="h-3.5 w-3.5 mr-1" />
+            <XCircle className="mr-1 h-3.5 w-3.5" />
             Reject
           </Button>
 
-          <Button
-            size="xs"
-            disabled={isPending}
-            onClick={handleApprove}
-          >
+          <Button size="xs" disabled={isPending} onClick={handleApprove}>
             {isPending ? (
               <>
-                <Loader2 className="h-3.5 w-3.5 mr-1 animate-spin" />
+                <Loader2 className="mr-1 h-3.5 w-3.5 animate-spin" />
                 Processing...
               </>
             ) : (
               <>
-                <CheckCircle className="h-3.5 w-3.5 mr-1" />
+                <CheckCircle className="mr-1 h-3.5 w-3.5" />
                 Approve Submission
               </>
             )}
@@ -206,9 +197,9 @@ export function ReviewWorkspace({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
         <div className="lg:col-span-7">
-          <div className="rounded-lg border bg-card overflow-hidden">
+          <div className="bg-card overflow-hidden rounded-lg border">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -231,14 +222,11 @@ export function ReviewWorkspace({
                     }`}
                     onClick={() => {
                       if (item.document) {
-                        loadDoc(
-                          item.document.id,
-                          item.document.originalName
-                        );
+                        loadDoc(item.document.id, item.document.originalName);
                       }
                     }}
                   >
-                    <TableCell className="font-mono text-xs text-muted-foreground whitespace-nowrap">
+                    <TableCell className="text-muted-foreground font-mono text-xs whitespace-nowrap">
                       {item.entryDate}
                     </TableCell>
                     <TableCell>
@@ -246,13 +234,11 @@ export function ReviewWorkspace({
                         {item.scope.replace("_", " ")}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-xs">
-                      {item.sourceName}
-                    </TableCell>
+                    <TableCell className="text-xs">{item.sourceName}</TableCell>
                     <TableCell className="text-xs">
                       {item.quantity} {item.unit}
                     </TableCell>
-                    <TableCell className="font-semibold text-xs">
+                    <TableCell className="text-xs font-semibold">
                       {item.tco2e}
                     </TableCell>
                     <TableCell className="text-right">
@@ -260,12 +246,12 @@ export function ReviewWorkspace({
                         <Button
                           variant="ghost"
                           size="xs"
-                          className="h-6 text-xs gap-1"
+                          className="h-6 gap-1 text-xs"
                           onClick={(e) => {
                             e.stopPropagation();
                             loadDoc(
                               item.document!.id,
-                              item.document!.originalName
+                              item.document!.originalName,
                             );
                           }}
                         >
@@ -273,7 +259,7 @@ export function ReviewWorkspace({
                           View
                         </Button>
                       ) : (
-                        <span className="text-[10px] text-muted-foreground">
+                        <span className="text-muted-foreground text-[10px]">
                           None
                         </span>
                       )}
@@ -286,46 +272,48 @@ export function ReviewWorkspace({
         </div>
 
         <div className="lg:col-span-5">
-          <Card className="h-full flex flex-col border-border">
-            <CardHeader className="p-3 pb-2 border-b">
+          <Card className="border-border flex h-full flex-col">
+            <CardHeader className="border-b p-3 pb-2">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-xs font-bold truncate">
+                <CardTitle className="truncate text-xs font-bold">
                   {selectedDocName || "Document Viewer"}
                 </CardTitle>
               </div>
             </CardHeader>
-            <CardContent className="p-3 flex-1 flex flex-col justify-center items-center">
+            <CardContent className="flex flex-1 flex-col items-center justify-center p-3">
               {docLoading ? (
-                <div className="py-16 flex flex-col items-center">
-                  <Loader2 className="h-6 w-6 animate-spin text-muted-foreground mb-2" />
-                  <span className="text-xs text-muted-foreground">Loading...</span>
+                <div className="flex flex-col items-center py-16">
+                  <Loader2 className="text-muted-foreground mb-2 h-6 w-6 animate-spin" />
+                  <span className="text-muted-foreground text-xs">
+                    Loading...
+                  </span>
                 </div>
               ) : docUrl ? (
-                <div className="w-full flex-1 flex flex-col items-center">
+                <div className="flex w-full flex-1 flex-col items-center">
                   {selectedDocName.toLowerCase().endsWith(".pdf") ? (
                     <iframe
                       src={docUrl}
-                      className="w-full h-[360px] border rounded"
+                      className="h-[360px] w-full rounded border"
                       title={selectedDocName}
                     />
                   ) : (
                     <img
                       src={docUrl}
                       alt={selectedDocName}
-                      className="max-h-[360px] object-contain rounded border"
+                      className="max-h-[360px] rounded border object-contain"
                     />
                   )}
                   <div className="mt-2">
                     <Button asChild size="xs" variant="outline">
                       <a href={docUrl} target="_blank" rel="noreferrer">
-                        <ExternalLink className="h-3 w-3 mr-1" />
+                        <ExternalLink className="mr-1 h-3 w-3" />
                         Open Original
                       </a>
                     </Button>
                   </div>
                 </div>
               ) : (
-                <div className="py-12 text-center text-xs text-muted-foreground">
+                <div className="text-muted-foreground py-12 text-center text-xs">
                   Select an entry to view proof.
                 </div>
               )}
@@ -341,7 +329,8 @@ export function ReviewWorkspace({
               Reject Submission
             </DialogTitle>
             <DialogDescription className="text-xs">
-              State the reason for returning this submission to the site manager.
+              State the reason for returning this submission to the site
+              manager.
             </DialogDescription>
           </DialogHeader>
 

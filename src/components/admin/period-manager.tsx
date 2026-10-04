@@ -18,11 +18,7 @@ import {
   updateFyConfigAction,
   lockFinancialYearAction,
 } from "@/lib/actions/emissions";
-import {
-  Lock,
-  Unlock,
-  Loader2,
-} from "lucide-react";
+import { Lock, Unlock, Loader2 } from "lucide-react";
 
 interface FyConfigItem {
   financialYear: string;
@@ -39,14 +35,12 @@ export function PeriodManager({ configs }: { configs: FyConfigItem[] }) {
   const currentConfig = configs.find((c) => c.financialYear === selectedFy);
 
   const [turnover, setTurnover] = useState(
-    currentConfig?.turnoverInrCr || "32500.00"
+    currentConfig?.turnoverInrCr || "32500.00",
   );
   const [assuranceDone, setAssuranceDone] = useState(
-    currentConfig?.assuranceDone || false
+    currentConfig?.assuranceDone || false,
   );
-  const [agency, setAgency] = useState(
-    currentConfig?.assuranceAgency || ""
-  );
+  const [agency, setAgency] = useState(currentConfig?.assuranceAgency || "");
 
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -68,12 +62,7 @@ export function PeriodManager({ configs }: { configs: FyConfigItem[] }) {
 
     startTransition(async () => {
       try {
-        await updateFyConfigAction(
-          selectedFy,
-          turnover,
-          assuranceDone,
-          agency
-        );
+        await updateFyConfigAction(selectedFy, turnover, assuranceDone, agency);
         setSuccess(`Configuration for FY ${selectedFy} saved.`);
       } catch (err: any) {
         setError(err.message || "Failed to update configuration");
@@ -84,7 +73,7 @@ export function PeriodManager({ configs }: { configs: FyConfigItem[] }) {
   const handleLockPeriod = () => {
     if (
       !confirm(
-        `Are you sure you want to LOCK Financial Year ${selectedFy}? All approved entries will be permanently locked.`
+        `Are you sure you want to LOCK Financial Year ${selectedFy}? All approved entries will be permanently locked.`,
       )
     ) {
       return;
@@ -104,7 +93,7 @@ export function PeriodManager({ configs }: { configs: FyConfigItem[] }) {
   };
 
   return (
-    <div className="space-y-4 max-w-4xl">
+    <div className="max-w-4xl space-y-4">
       {error && (
         <Alert variant="destructive">
           <AlertTitle className="text-xs font-semibold">Error</AlertTitle>
@@ -130,15 +119,15 @@ export function PeriodManager({ configs }: { configs: FyConfigItem[] }) {
           >
             FY {c.financialYear}
             {c.lockedAt ? (
-              <Lock className="h-3 w-3 ml-1.5 text-muted-foreground" />
+              <Lock className="text-muted-foreground ml-1.5 h-3 w-3" />
             ) : (
-              <Unlock className="h-3 w-3 ml-1.5 text-muted-foreground" />
+              <Unlock className="text-muted-foreground ml-1.5 h-3 w-3" />
             )}
           </Button>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <Card className="border-border">
           <form onSubmit={handleSaveConfig}>
             <CardHeader className="p-4 pb-2">
@@ -149,9 +138,11 @@ export function PeriodManager({ configs }: { configs: FyConfigItem[] }) {
                 Turnover for BRSR emissions intensity.
               </CardDescription>
             </CardHeader>
-            <CardContent className="p-4 pt-1 space-y-3">
+            <CardContent className="space-y-3 p-4 pt-1">
               <div className="space-y-1.5">
-                <Label htmlFor="turnoverInput">Turnover (in &#8377; Crore)</Label>
+                <Label htmlFor="turnoverInput">
+                  Turnover (in &#8377; Crore)
+                </Label>
                 <Input
                   id="turnoverInput"
                   type="number"
@@ -171,9 +162,12 @@ export function PeriodManager({ configs }: { configs: FyConfigItem[] }) {
                     checked={assuranceDone}
                     disabled={isLocked}
                     onChange={(e) => setAssuranceDone(e.target.checked)}
-                    className="h-4 w-4 rounded border-border"
+                    className="border-border h-4 w-4 rounded"
                   />
-                  <Label htmlFor="assuranceCheck" className="text-xs cursor-pointer">
+                  <Label
+                    htmlFor="assuranceCheck"
+                    className="cursor-pointer text-xs"
+                  >
                     Third-party Assurance Completed
                   </Label>
                 </div>
@@ -193,14 +187,10 @@ export function PeriodManager({ configs }: { configs: FyConfigItem[] }) {
               </div>
             </CardContent>
             <CardFooter className="p-4 pt-0">
-              <Button
-                type="submit"
-                size="sm"
-                disabled={isPending || isLocked}
-              >
+              <Button type="submit" size="sm" disabled={isPending || isLocked}>
                 {isPending ? (
                   <>
-                    <Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin" />
+                    <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
                     Saving...
                   </>
                 ) : (
@@ -215,9 +205,7 @@ export function PeriodManager({ configs }: { configs: FyConfigItem[] }) {
           <div>
             <CardHeader className="p-4 pb-2">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-bold">
-                  Period Lock
-                </CardTitle>
+                <CardTitle className="text-sm font-bold">Period Lock</CardTitle>
                 <Badge
                   variant={isLocked ? "secondary" : "outline"}
                   className="text-[10px]"
@@ -229,20 +217,26 @@ export function PeriodManager({ configs }: { configs: FyConfigItem[] }) {
                 Seals all approved submissions for the financial year.
               </CardDescription>
             </CardHeader>
-            <CardContent className="p-4 pt-1 text-xs text-muted-foreground space-y-2">
+            <CardContent className="text-muted-foreground space-y-2 p-4 pt-1 text-xs">
               <p>Locked entries cannot be modified or rejected.</p>
               {currentConfig?.lockedAt && (
-                <div className="font-mono text-[11px] text-foreground border rounded p-2 bg-muted/30">
-                  Locked on: {new Date(currentConfig.lockedAt).toLocaleDateString()}
+                <div className="text-foreground bg-muted/30 rounded border p-2 font-mono text-[11px]">
+                  Locked on:{" "}
+                  {new Date(currentConfig.lockedAt).toLocaleDateString()}
                 </div>
               )}
             </CardContent>
           </div>
 
-          <CardFooter className="p-4 pt-0 border-t border-border">
+          <CardFooter className="border-border border-t p-4 pt-0">
             {isLocked ? (
-              <Button disabled variant="outline" size="sm" className="w-full text-xs">
-                <Lock className="h-3.5 w-3.5 mr-1.5" />
+              <Button
+                disabled
+                variant="outline"
+                size="sm"
+                className="w-full text-xs"
+              >
+                <Lock className="mr-1.5 h-3.5 w-3.5" />
                 Period Sealed
               </Button>
             ) : (
@@ -255,12 +249,12 @@ export function PeriodManager({ configs }: { configs: FyConfigItem[] }) {
               >
                 {isPending ? (
                   <>
-                    <Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin" />
+                    <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
                     Locking...
                   </>
                 ) : (
                   <>
-                    <Lock className="h-3.5 w-3.5 mr-1.5" />
+                    <Lock className="mr-1.5 h-3.5 w-3.5" />
                     Lock Financial Year {selectedFy}
                   </>
                 )}

@@ -38,8 +38,7 @@ export async function getAuthContext() {
 
         if (!isHq) {
           const siteCode =
-            (meta.site_id as string) ||
-            `PRJ-${org.id.slice(-6).toUpperCase()}`;
+            (meta.site_id as string) || `PRJ-${org.id.slice(-6).toUpperCase()}`;
           const buCode = (meta.bu_id as string) || "BU-WATER";
           const state = (meta.state as string) || "AP";
 
@@ -122,7 +121,7 @@ export async function requireSiteContext() {
   const ctx = await requireAuthContext();
   if (!ctx.site) {
     throw new Error(
-      "Forbidden: Active organization is not a registered project site"
+      "Forbidden: Active organization is not a registered project site",
     );
   }
   return { ...ctx, site: ctx.site };

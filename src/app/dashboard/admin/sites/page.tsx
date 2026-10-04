@@ -28,12 +28,12 @@ export default async function AdminSitesPage() {
     .innerJoin(businessUnits, eq(sites.buId, businessUnits.id));
 
   return (
-    <div className="space-y-4 max-w-7xl">
-      <div className="border-b border-border pb-3">
+    <div className="max-w-7xl space-y-4">
+      <div className="border-border border-b pb-3">
         <h1 className="text-xl font-bold tracking-tight">
           Sites &amp; Business Units
         </h1>
-        <p className="text-xs text-muted-foreground mt-0.5">
+        <p className="text-muted-foreground mt-0.5 text-xs">
           Project sites and organization mapping.
         </p>
       </div>

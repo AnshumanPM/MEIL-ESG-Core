@@ -17,12 +17,10 @@ export default async function AdminPeriodPage() {
     .from(fyConfig);
 
   return (
-    <div className="space-y-4 max-w-7xl">
-      <div className="border-b border-border pb-3">
-        <h1 className="text-xl font-bold tracking-tight">
-          Period Governance
-        </h1>
-        <p className="text-xs text-muted-foreground mt-0.5">
+    <div className="max-w-7xl space-y-4">
+      <div className="border-border border-b pb-3">
+        <h1 className="text-xl font-bold tracking-tight">Period Governance</h1>
+        <p className="text-muted-foreground mt-0.5 text-xs">
           Turnover parameters and financial year lock.
         </p>
       </div>

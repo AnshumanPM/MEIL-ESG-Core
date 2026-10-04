@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
   if (!WEBHOOK_SECRET) {
     return NextResponse.json(
       { error: "Missing CLERK_WEBHOOK_SECRET" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 
@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
   if (!svix_id || !svix_timestamp || !svix_signature) {
     return NextResponse.json(
       { error: "Missing Svix verification headers" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -43,13 +43,16 @@ export async function POST(req: NextRequest) {
   } catch (err: any) {
     return NextResponse.json(
       { error: "Webhook verification failed: " + err.message },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   const eventType = evt.type;
 
-  if (eventType === "organization.created" || eventType === "organization.updated") {
+  if (
+    eventType === "organization.created" ||
+    eventType === "organization.updated"
+  ) {
     const data = evt.data;
     const metadata = (data.public_metadata || {}) as Record<string, any>;
 

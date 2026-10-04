@@ -53,12 +53,12 @@ export function EntryForm({
   const [isPending, startTransition] = useTransition();
 
   const [scope, setScope] = useState<"SCOPE_1" | "SCOPE_2" | "SCOPE_3">(
-    "SCOPE_1"
+    "SCOPE_1",
   );
   const [selectedFactorId, setSelectedFactorId] = useState<string>("");
   const [sourceName, setSourceName] = useState("");
   const [entryDate, setEntryDate] = useState(
-    new Date().toISOString().split("T")[0]
+    new Date().toISOString().split("T")[0],
   );
   const [quantity, setQuantity] = useState("");
   const [financialYear, setFinancialYear] = useState("2026-2027");
@@ -66,7 +66,7 @@ export function EntryForm({
   const [docType, setDocType] = useState("FUEL_INVOICE");
   const [invoiceNumber, setInvoiceNumber] = useState("");
   const [invoiceDate, setInvoiceDate] = useState(
-    new Date().toISOString().split("T")[0]
+    new Date().toISOString().split("T")[0],
   );
   const [file, setFile] = useState<File | null>(null);
 
@@ -81,7 +81,8 @@ export function EntryForm({
     availableFactors[0] ||
     null;
 
-  const currentFactorId = selectedFactorId || (currentFactor ? currentFactor.id : "");
+  const currentFactorId =
+    selectedFactorId || (currentFactor ? currentFactor.id : "");
 
   const qtyNum = parseFloat(quantity) || 0;
   const factorNum = currentFactor ? parseFloat(currentFactor.kgCo2ePerUnit) : 0;
@@ -180,12 +181,14 @@ export function EntryForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 max-w-4xl">
+    <form onSubmit={handleSubmit} className="max-w-4xl space-y-4">
       {errorMessage && (
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
           <AlertTitle className="text-xs font-semibold">Error</AlertTitle>
-          <AlertDescription className="text-xs">{errorMessage}</AlertDescription>
+          <AlertDescription className="text-xs">
+            {errorMessage}
+          </AlertDescription>
         </Alert>
       )}
 
@@ -193,18 +196,22 @@ export function EntryForm({
         <Alert>
           <CheckCircle2 className="h-4 w-4" />
           <AlertTitle className="text-xs font-semibold">Saved</AlertTitle>
-          <AlertDescription className="text-xs">{successMessage}</AlertDescription>
+          <AlertDescription className="text-xs">
+            {successMessage}
+          </AlertDescription>
         </Alert>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="md:col-span-2 space-y-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="space-y-4 md:col-span-2">
           <Card>
             <CardHeader className="p-4 pb-2">
-              <CardTitle className="text-sm font-bold">Activity Details</CardTitle>
+              <CardTitle className="text-sm font-bold">
+                Activity Details
+              </CardTitle>
             </CardHeader>
-            <CardContent className="p-4 pt-1 space-y-3">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <CardContent className="space-y-3 p-4 pt-1">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                 <div className="space-y-1.5">
                   <Label htmlFor="scope">Scope</Label>
                   <Select
@@ -213,13 +220,21 @@ export function EntryForm({
                   >
                     <SelectTrigger id="scope">
                       <SelectValue>
-                        {scope === "SCOPE_1" ? "Scope 1 (Direct)" : scope === "SCOPE_2" ? "Scope 2 (Electricity)" : "Scope 3 (Value Chain)"}
+                        {scope === "SCOPE_1"
+                          ? "Scope 1 (Direct)"
+                          : scope === "SCOPE_2"
+                            ? "Scope 2 (Electricity)"
+                            : "Scope 3 (Value Chain)"}
                       </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="SCOPE_1">Scope 1 (Direct)</SelectItem>
-                      <SelectItem value="SCOPE_2">Scope 2 (Electricity)</SelectItem>
-                      <SelectItem value="SCOPE_3">Scope 3 (Value Chain)</SelectItem>
+                      <SelectItem value="SCOPE_2">
+                        Scope 2 (Electricity)
+                      </SelectItem>
+                      <SelectItem value="SCOPE_3">
+                        Scope 3 (Value Chain)
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -232,7 +247,9 @@ export function EntryForm({
                   >
                     <SelectTrigger id="category">
                       <SelectValue>
-                        {currentFactor ? `${currentFactor.category.replace(/_/g, " ")} (${currentFactor.unit})` : "Select category"}
+                        {currentFactor
+                          ? `${currentFactor.category.replace(/_/g, " ")} (${currentFactor.unit})`
+                          : "Select category"}
                       </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
@@ -257,7 +274,7 @@ export function EntryForm({
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div className="space-y-1.5">
                   <Label htmlFor="sourceName">Source</Label>
                   <Input
@@ -290,40 +307,55 @@ export function EntryForm({
 
           <Card>
             <CardHeader className="p-4 pb-2">
-              <CardTitle className="text-sm font-bold">Proof Document</CardTitle>
+              <CardTitle className="text-sm font-bold">
+                Proof Document
+              </CardTitle>
             </CardHeader>
-            <CardContent className="p-4 pt-1 space-y-3">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <CardContent className="space-y-3 p-4 pt-1">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                 <div className="space-y-1.5">
                   <Label htmlFor="docType">Evidence Type</Label>
-                  <Select value={docType} onValueChange={(val) => val && setDocType(val)}>
+                  <Select
+                    value={docType}
+                    onValueChange={(val) => val && setDocType(val)}
+                  >
                     <SelectTrigger id="docType">
                       <SelectValue>
                         {docType === "FUEL_INVOICE"
                           ? "Fuel Invoice"
                           : docType === "EB_BILL"
-                          ? "Electricity Bill"
-                          : docType === "WEIGHBRIDGE_SLIP"
-                          ? "Weighbridge Slip"
-                          : docType === "GAS_INVOICE"
-                          ? "Gas Cylinder Slip"
-                          : docType === "PURCHASE_INVOICE"
-                          ? "Material Invoice"
-                          : docType === "TRAVEL_TICKET"
-                          ? "Travel Ticket"
-                          : docType === "LOGISTICS_RECEIPT"
-                          ? "Freight Slip"
-                          : "Other Proof"}
+                            ? "Electricity Bill"
+                            : docType === "WEIGHBRIDGE_SLIP"
+                              ? "Weighbridge Slip"
+                              : docType === "GAS_INVOICE"
+                                ? "Gas Cylinder Slip"
+                                : docType === "PURCHASE_INVOICE"
+                                  ? "Material Invoice"
+                                  : docType === "TRAVEL_TICKET"
+                                    ? "Travel Ticket"
+                                    : docType === "LOGISTICS_RECEIPT"
+                                      ? "Freight Slip"
+                                      : "Other Proof"}
                       </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="FUEL_INVOICE">Fuel Invoice</SelectItem>
                       <SelectItem value="EB_BILL">Electricity Bill</SelectItem>
-                      <SelectItem value="WEIGHBRIDGE_SLIP">Weighbridge Slip</SelectItem>
-                      <SelectItem value="GAS_INVOICE">Gas Cylinder Slip</SelectItem>
-                      <SelectItem value="PURCHASE_INVOICE">Material Invoice</SelectItem>
-                      <SelectItem value="TRAVEL_TICKET">Travel Ticket</SelectItem>
-                      <SelectItem value="LOGISTICS_RECEIPT">Freight Slip</SelectItem>
+                      <SelectItem value="WEIGHBRIDGE_SLIP">
+                        Weighbridge Slip
+                      </SelectItem>
+                      <SelectItem value="GAS_INVOICE">
+                        Gas Cylinder Slip
+                      </SelectItem>
+                      <SelectItem value="PURCHASE_INVOICE">
+                        Material Invoice
+                      </SelectItem>
+                      <SelectItem value="TRAVEL_TICKET">
+                        Travel Ticket
+                      </SelectItem>
+                      <SelectItem value="LOGISTICS_RECEIPT">
+                        Freight Slip
+                      </SelectItem>
                       <SelectItem value="OTHER_PROOF">Other Proof</SelectItem>
                     </SelectContent>
                   </Select>
@@ -352,13 +384,13 @@ export function EntryForm({
 
               <div className="space-y-1.5">
                 <Label htmlFor="file">File (PDF, JPG, PNG &le; 10MB)</Label>
-                <div className="border border-dashed border-border rounded-md p-4 text-center">
+                <div className="border-border rounded-md border border-dashed p-4 text-center">
                   <Input
                     id="file"
                     type="file"
                     accept=".pdf,image/jpeg,image/png,image/webp"
                     required
-                    className="max-w-xs mx-auto text-xs"
+                    className="mx-auto max-w-xs text-xs"
                     onChange={(e) => {
                       if (e.target.files && e.target.files[0]) {
                         setFile(e.target.files[0]);
@@ -366,8 +398,8 @@ export function EntryForm({
                     }}
                   />
                   {file && (
-                    <div className="mt-2 text-xs font-medium text-foreground flex items-center justify-center gap-1.5">
-                      <FileCheck className="h-3.5 w-3.5 text-muted-foreground" />
+                    <div className="text-foreground mt-2 flex items-center justify-center gap-1.5 text-xs font-medium">
+                      <FileCheck className="text-muted-foreground h-3.5 w-3.5" />
                       <span>{file.name}</span>
                     </div>
                   )}
@@ -382,19 +414,25 @@ export function EntryForm({
             <CardHeader className="p-4 pb-2">
               <CardTitle className="text-sm font-bold">Calculation</CardTitle>
             </CardHeader>
-            <CardContent className="p-4 pt-1 space-y-3">
-              <div className="rounded-md bg-muted/40 p-3 space-y-1.5 text-xs">
-                <div className="flex justify-between text-muted-foreground">
+            <CardContent className="space-y-3 p-4 pt-1">
+              <div className="bg-muted/40 space-y-1.5 rounded-md p-3 text-xs">
+                <div className="text-muted-foreground flex justify-between">
                   <span>Quantity:</span>
-                  <span className="font-medium text-foreground">{qtyNum} {currentFactor?.unit}</span>
+                  <span className="text-foreground font-medium">
+                    {qtyNum} {currentFactor?.unit}
+                  </span>
                 </div>
-                <div className="flex justify-between text-muted-foreground">
+                <div className="text-muted-foreground flex justify-between">
                   <span>Factor:</span>
-                  <span className="font-medium text-foreground">{currentFactor?.kgCo2ePerUnit} kg/unit</span>
+                  <span className="text-foreground font-medium">
+                    {currentFactor?.kgCo2ePerUnit} kg/unit
+                  </span>
                 </div>
-                <div className="border-t border-border pt-1.5 flex justify-between items-baseline">
-                  <span className="font-semibold text-foreground">tCO₂e:</span>
-                  <span className="text-xl font-bold text-foreground">{liveTco2e}</span>
+                <div className="border-border flex items-baseline justify-between border-t pt-1.5">
+                  <span className="text-foreground font-semibold">tCO₂e:</span>
+                  <span className="text-foreground text-xl font-bold">
+                    {liveTco2e}
+                  </span>
                 </div>
               </div>
             </CardContent>
@@ -406,7 +444,7 @@ export function EntryForm({
               >
                 {uploadProgress || isPending ? (
                   <>
-                    <Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin" />
+                    <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
                     Saving...
                   </>
                 ) : (

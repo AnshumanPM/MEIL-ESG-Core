@@ -27,7 +27,7 @@ export function computeSha256(buffer: Buffer): string {
 export async function uploadToR2(
   key: string,
   buffer: Buffer,
-  contentType: string
+  contentType: string,
 ) {
   const command = new PutObjectCommand({
     Bucket: bucketName,

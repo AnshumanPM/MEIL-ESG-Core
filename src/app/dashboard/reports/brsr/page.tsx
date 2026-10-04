@@ -38,8 +38,8 @@ export default async function BrsrReportPage() {
     .where(
       and(
         eq(emissionEntries.financialYear, currentFy),
-        inArray(emissionEntries.status, ["APPROVED", "LOCKED"])
-      )
+        inArray(emissionEntries.status, ["APPROVED", "LOCKED"]),
+      ),
     )
     .groupBy(emissionEntries.scope);
 
@@ -52,8 +52,8 @@ export default async function BrsrReportPage() {
     .where(
       and(
         eq(emissionEntries.financialYear, previousFy),
-        inArray(emissionEntries.status, ["APPROVED", "LOCKED"])
-      )
+        inArray(emissionEntries.status, ["APPROVED", "LOCKED"]),
+      ),
     )
     .groupBy(emissionEntries.scope);
 
@@ -106,7 +106,8 @@ export default async function BrsrReportPage() {
       source: "Aggregated site fuel, gas & process entries",
     },
     {
-      parameter: "Total Scope 2 emissions (Indirect emissions from energy consumption)",
+      parameter:
+        "Total Scope 2 emissions (Indirect emissions from energy consumption)",
       unit: "tCO₂e",
       currentFyValue: currentS2.toFixed(3),
       previousFyValue: prevS2.toFixed(3),
@@ -160,8 +161,8 @@ export default async function BrsrReportPage() {
     .where(
       and(
         eq(emissionEntries.financialYear, currentFy),
-        inArray(emissionEntries.status, ["APPROVED", "LOCKED"])
-      )
+        inArray(emissionEntries.status, ["APPROVED", "LOCKED"]),
+      ),
     );
 
   const auditPack = rawAuditPack.map((r) => ({
@@ -184,12 +185,12 @@ export default async function BrsrReportPage() {
   }));
 
   return (
-    <div className="space-y-4 max-w-7xl">
-      <div className="border-b border-border pb-3 print:hidden">
+    <div className="max-w-7xl space-y-4">
+      <div className="border-border border-b pb-3 print:hidden">
         <h1 className="text-xl font-bold tracking-tight">
           BRSR Principle 6 Disclosures
         </h1>
-        <p className="text-xs text-muted-foreground mt-0.5">
+        <p className="text-muted-foreground mt-0.5 text-xs">
           Statutory greenhouse gas emissions table and intensity metrics.
         </p>
       </div>

@@ -13,11 +13,7 @@ import {
   uniqueIndex,
 } from "drizzle-orm/pg-core";
 
-export const scopeEnum = pgEnum("scope", [
-  "SCOPE_1",
-  "SCOPE_2",
-  "SCOPE_3",
-]);
+export const scopeEnum = pgEnum("scope", ["SCOPE_1", "SCOPE_2", "SCOPE_3"]);
 
 export const statusEnum = pgEnum("entry_status", [
   "DRAFT",
@@ -54,7 +50,10 @@ export const emissionFactors = pgTable("emission_factors", {
   scope: scopeEnum("scope").notNull(),
   category: varchar("category", { length: 60 }).notNull(),
   unit: varchar("unit", { length: 20 }).notNull(),
-  kgCo2ePerUnit: numeric("kg_co2e_per_unit", { precision: 14, scale: 6 }).notNull(),
+  kgCo2ePerUnit: numeric("kg_co2e_per_unit", {
+    precision: 14,
+    scale: 6,
+  }).notNull(),
   authority: varchar("authority", { length: 120 }).notNull(),
   version: varchar("version", { length: 40 }).notNull(),
   validFrom: date("valid_from").notNull(),
@@ -95,7 +94,7 @@ export const emissionEntries = pgTable(
   (table) => [
     index("entries_site_fy_idx").on(table.siteId, table.financialYear),
     index("entries_status_idx").on(table.status),
-  ]
+  ],
 );
 
 export const documents = pgTable(
@@ -119,9 +118,7 @@ export const documents = pgTable(
       .defaultNow()
       .notNull(),
   },
-  (table) => [
-    uniqueIndex("doc_hash_site_idx").on(table.siteId, table.sha256),
-  ]
+  (table) => [uniqueIndex("doc_hash_site_idx").on(table.siteId, table.sha256)],
 );
 
 export const fyConfig = pgTable("fy_config", {

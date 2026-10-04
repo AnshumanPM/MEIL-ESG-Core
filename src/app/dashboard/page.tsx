@@ -74,21 +74,28 @@ export default async function DashboardOverviewPage() {
     })
     .from(documents);
 
-  const roleName = orgRole ? orgRole.replace("org:", "").replace("_", " ").toUpperCase() : "NO ORG";
+  const roleName = orgRole
+    ? orgRole.replace("org:", "").replace("_", " ").toUpperCase()
+    : "NO ORG";
 
   return (
-    <div className="space-y-6 max-w-6xl">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border pb-4">
+    <div className="max-w-6xl space-y-6">
+      <div className="border-border flex flex-col justify-between gap-3 border-b pb-4 sm:flex-row sm:items-center">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <Badge variant="outline" className="text-xs">FY 2026-2027</Badge>
-            <Badge variant="secondary" className="text-xs">{roleName}</Badge>
+          <div className="mb-1 flex items-center gap-2">
+            <Badge variant="outline" className="text-xs">
+              FY 2026-2027
+            </Badge>
+            <Badge variant="secondary" className="text-xs">
+              {roleName}
+            </Badge>
           </div>
           <h1 className="text-2xl font-bold tracking-tight">
             GHG Emissions Overview
           </h1>
-          <p className="text-xs text-muted-foreground mt-0.5">
-            Logged in as {user?.firstName || user?.emailAddresses[0]?.emailAddress}
+          <p className="text-muted-foreground mt-0.5 text-xs">
+            Logged in as{" "}
+            {user?.firstName || user?.emailAddresses[0]?.emailAddress}
           </p>
         </div>
 
@@ -96,8 +103,8 @@ export default async function DashboardOverviewPage() {
           {!orgId ? (
             <OrganizationSwitcher hidePersonal />
           ) : (
-            <div className="flex items-center gap-2 border border-border bg-card rounded-md px-3 py-1.5 text-xs font-medium">
-              <Building2 className="h-3.5 w-3.5 text-muted-foreground" />
+            <div className="border-border bg-card flex items-center gap-2 rounded-md border px-3 py-1.5 text-xs font-medium">
+              <Building2 className="text-muted-foreground h-3.5 w-3.5" />
               <span>{site ? `${site.name} (${site.id})` : "MEIL HQ"}</span>
             </div>
           )}
@@ -106,30 +113,39 @@ export default async function DashboardOverviewPage() {
 
       {!orgId && (
         <Alert>
-          <AlertTitle className="text-xs font-semibold">Select Organization</AlertTitle>
-          <AlertDescription className="text-xs text-muted-foreground mt-0.5">
-            Choose an organization to access your project site or corporate workspace.
+          <AlertTitle className="text-xs font-semibold">
+            Select Organization
+          </AlertTitle>
+          <AlertDescription className="text-muted-foreground mt-0.5 text-xs">
+            Choose an organization to access your project site or corporate
+            workspace.
           </AlertDescription>
         </Alert>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <Card className="border-border">
           <CardHeader className="p-4 pb-2">
-            <CardDescription className="text-xs uppercase font-medium">Recorded Emissions</CardDescription>
+            <CardDescription className="text-xs font-medium uppercase">
+              Recorded Emissions
+            </CardDescription>
             <CardTitle className="text-2xl font-bold">
               {Number(stats?.totalTco2e || 0).toLocaleString(undefined, {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               })}{" "}
-              <span className="text-xs font-normal text-muted-foreground">tCO₂e</span>
+              <span className="text-muted-foreground text-xs font-normal">
+                tCO₂e
+              </span>
             </CardTitle>
           </CardHeader>
         </Card>
 
         <Card className="border-border">
           <CardHeader className="p-4 pb-2">
-            <CardDescription className="text-xs uppercase font-medium">Activity Entries</CardDescription>
+            <CardDescription className="text-xs font-medium uppercase">
+              Activity Entries
+            </CardDescription>
             <CardTitle className="text-2xl font-bold">
               {stats?.totalEntries || 0}
             </CardTitle>
@@ -138,7 +154,9 @@ export default async function DashboardOverviewPage() {
 
         <Card className="border-border">
           <CardHeader className="p-4 pb-2">
-            <CardDescription className="text-xs uppercase font-medium">Verified Documents</CardDescription>
+            <CardDescription className="text-xs font-medium uppercase">
+              Verified Documents
+            </CardDescription>
             <CardTitle className="text-2xl font-bold">
               {docStats?.totalDocs || 0}
             </CardTitle>
@@ -147,19 +165,28 @@ export default async function DashboardOverviewPage() {
       </div>
 
       {site ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Card className="border-border hover:bg-muted/30 transition-colors">
             <CardHeader className="p-4 pb-2">
               <div className="flex items-center justify-between">
-                <LayoutDashboard className="h-4 w-4 text-muted-foreground" />
-                <Badge variant="outline" className="text-[10px]">Site</Badge>
+                <LayoutDashboard className="text-muted-foreground h-4 w-4" />
+                <Badge variant="outline" className="text-[10px]">
+                  Site
+                </Badge>
               </div>
-              <CardTitle className="text-sm font-bold mt-2">Site Dashboard</CardTitle>
+              <CardTitle className="mt-2 text-sm font-bold">
+                Site Dashboard
+              </CardTitle>
             </CardHeader>
             <CardContent className="p-4 pt-1">
-              <Button asChild variant="outline" size="xs" className="w-full justify-between">
+              <Button
+                asChild
+                variant="outline"
+                size="xs"
+                className="w-full justify-between"
+              >
                 <Link href="/dashboard/site">
-                  Open <ArrowRight className="h-3 w-3 ml-1" />
+                  Open <ArrowRight className="ml-1 h-3 w-3" />
                 </Link>
               </Button>
             </CardContent>
@@ -168,15 +195,24 @@ export default async function DashboardOverviewPage() {
           <Card className="border-border hover:bg-muted/30 transition-colors">
             <CardHeader className="p-4 pb-2">
               <div className="flex items-center justify-between">
-                <FilePlus2 className="h-4 w-4 text-muted-foreground" />
-                <Badge variant="outline" className="text-[10px]">Activity</Badge>
+                <FilePlus2 className="text-muted-foreground h-4 w-4" />
+                <Badge variant="outline" className="text-[10px]">
+                  Activity
+                </Badge>
               </div>
-              <CardTitle className="text-sm font-bold mt-2">Log Entry</CardTitle>
+              <CardTitle className="mt-2 text-sm font-bold">
+                Log Entry
+              </CardTitle>
             </CardHeader>
             <CardContent className="p-4 pt-1">
-              <Button asChild variant="outline" size="xs" className="w-full justify-between">
+              <Button
+                asChild
+                variant="outline"
+                size="xs"
+                className="w-full justify-between"
+              >
                 <Link href="/dashboard/site/entries/new">
-                  Open <ArrowRight className="h-3 w-3 ml-1" />
+                  Open <ArrowRight className="ml-1 h-3 w-3" />
                 </Link>
               </Button>
             </CardContent>
@@ -185,15 +221,24 @@ export default async function DashboardOverviewPage() {
           <Card className="border-border hover:bg-muted/30 transition-colors">
             <CardHeader className="p-4 pb-2">
               <div className="flex items-center justify-between">
-                <Layers className="h-4 w-4 text-muted-foreground" />
-                <Badge variant="outline" className="text-[10px]">Records</Badge>
+                <Layers className="text-muted-foreground h-4 w-4" />
+                <Badge variant="outline" className="text-[10px]">
+                  Records
+                </Badge>
               </div>
-              <CardTitle className="text-sm font-bold mt-2">Emissions Ledger</CardTitle>
+              <CardTitle className="mt-2 text-sm font-bold">
+                Emissions Ledger
+              </CardTitle>
             </CardHeader>
             <CardContent className="p-4 pt-1">
-              <Button asChild variant="outline" size="xs" className="w-full justify-between">
+              <Button
+                asChild
+                variant="outline"
+                size="xs"
+                className="w-full justify-between"
+              >
                 <Link href="/dashboard/site/entries">
-                  Open <ArrowRight className="h-3 w-3 ml-1" />
+                  Open <ArrowRight className="ml-1 h-3 w-3" />
                 </Link>
               </Button>
             </CardContent>
@@ -202,34 +247,52 @@ export default async function DashboardOverviewPage() {
           <Card className="border-border hover:bg-muted/30 transition-colors">
             <CardHeader className="p-4 pb-2">
               <div className="flex items-center justify-between">
-                <Send className="h-4 w-4 text-muted-foreground" />
-                <Badge variant="outline" className="text-[10px]">Period</Badge>
+                <Send className="text-muted-foreground h-4 w-4" />
+                <Badge variant="outline" className="text-[10px]">
+                  Period
+                </Badge>
               </div>
-              <CardTitle className="text-sm font-bold mt-2">Submit Period</CardTitle>
+              <CardTitle className="mt-2 text-sm font-bold">
+                Submit Period
+              </CardTitle>
             </CardHeader>
             <CardContent className="p-4 pt-1">
-              <Button asChild variant="outline" size="xs" className="w-full justify-between">
+              <Button
+                asChild
+                variant="outline"
+                size="xs"
+                className="w-full justify-between"
+              >
                 <Link href="/dashboard/site/submit">
-                  Open <ArrowRight className="h-3 w-3 ml-1" />
+                  Open <ArrowRight className="ml-1 h-3 w-3" />
                 </Link>
               </Button>
             </CardContent>
           </Card>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <Card className="border-border hover:bg-muted/30 transition-colors">
             <CardHeader className="p-4 pb-2">
               <div className="flex items-center justify-between">
-                <Building2 className="h-4 w-4 text-muted-foreground" />
-                <Badge variant="outline" className="text-[10px]">Admin</Badge>
+                <Building2 className="text-muted-foreground h-4 w-4" />
+                <Badge variant="outline" className="text-[10px]">
+                  Admin
+                </Badge>
               </div>
-              <CardTitle className="text-sm font-bold mt-2">Sites &amp; BUs</CardTitle>
+              <CardTitle className="mt-2 text-sm font-bold">
+                Sites &amp; BUs
+              </CardTitle>
             </CardHeader>
             <CardContent className="p-4 pt-1">
-              <Button asChild variant="outline" size="xs" className="w-full justify-between">
+              <Button
+                asChild
+                variant="outline"
+                size="xs"
+                className="w-full justify-between"
+              >
                 <Link href="/dashboard/admin/sites">
-                  Open <ArrowRight className="h-3 w-3 ml-1" />
+                  Open <ArrowRight className="ml-1 h-3 w-3" />
                 </Link>
               </Button>
             </CardContent>
@@ -238,15 +301,24 @@ export default async function DashboardOverviewPage() {
           <Card className="border-border hover:bg-muted/30 transition-colors">
             <CardHeader className="p-4 pb-2">
               <div className="flex items-center justify-between">
-                <Layers className="h-4 w-4 text-muted-foreground" />
-                <Badge variant="outline" className="text-[10px]">Library</Badge>
+                <Layers className="text-muted-foreground h-4 w-4" />
+                <Badge variant="outline" className="text-[10px]">
+                  Library
+                </Badge>
               </div>
-              <CardTitle className="text-sm font-bold mt-2">Emission Factors</CardTitle>
+              <CardTitle className="mt-2 text-sm font-bold">
+                Emission Factors
+              </CardTitle>
             </CardHeader>
             <CardContent className="p-4 pt-1">
-              <Button asChild variant="outline" size="xs" className="w-full justify-between">
+              <Button
+                asChild
+                variant="outline"
+                size="xs"
+                className="w-full justify-between"
+              >
                 <Link href="/dashboard/admin/factors">
-                  Open <ArrowRight className="h-3 w-3 ml-1" />
+                  Open <ArrowRight className="ml-1 h-3 w-3" />
                 </Link>
               </Button>
             </CardContent>
@@ -255,15 +327,24 @@ export default async function DashboardOverviewPage() {
           <Card className="border-border hover:bg-muted/30 transition-colors">
             <CardHeader className="p-4 pb-2">
               <div className="flex items-center justify-between">
-                <FileCheck2 className="h-4 w-4 text-muted-foreground" />
-                <Badge variant="outline" className="text-[10px]">Review</Badge>
+                <FileCheck2 className="text-muted-foreground h-4 w-4" />
+                <Badge variant="outline" className="text-[10px]">
+                  Review
+                </Badge>
               </div>
-              <CardTitle className="text-sm font-bold mt-2">Review Queue</CardTitle>
+              <CardTitle className="mt-2 text-sm font-bold">
+                Review Queue
+              </CardTitle>
             </CardHeader>
             <CardContent className="p-4 pt-1">
-              <Button asChild variant="outline" size="xs" className="w-full justify-between">
+              <Button
+                asChild
+                variant="outline"
+                size="xs"
+                className="w-full justify-between"
+              >
                 <Link href="/dashboard/review">
-                  Open <ArrowRight className="h-3 w-3 ml-1" />
+                  Open <ArrowRight className="ml-1 h-3 w-3" />
                 </Link>
               </Button>
             </CardContent>
@@ -272,15 +353,24 @@ export default async function DashboardOverviewPage() {
           <Card className="border-border hover:bg-muted/30 transition-colors">
             <CardHeader className="p-4 pb-2">
               <div className="flex items-center justify-between">
-                <BarChart3 className="h-4 w-4 text-muted-foreground" />
-                <Badge variant="outline" className="text-[10px]">BRSR</Badge>
+                <BarChart3 className="text-muted-foreground h-4 w-4" />
+                <Badge variant="outline" className="text-[10px]">
+                  BRSR
+                </Badge>
               </div>
-              <CardTitle className="text-sm font-bold mt-2">BRSR Report</CardTitle>
+              <CardTitle className="mt-2 text-sm font-bold">
+                BRSR Report
+              </CardTitle>
             </CardHeader>
             <CardContent className="p-4 pt-1">
-              <Button asChild variant="outline" size="xs" className="w-full justify-between">
+              <Button
+                asChild
+                variant="outline"
+                size="xs"
+                className="w-full justify-between"
+              >
                 <Link href="/dashboard/reports/brsr">
-                  Open <ArrowRight className="h-3 w-3 ml-1" />
+                  Open <ArrowRight className="ml-1 h-3 w-3" />
                 </Link>
               </Button>
             </CardContent>
@@ -289,15 +379,24 @@ export default async function DashboardOverviewPage() {
           <Card className="border-border hover:bg-muted/30 transition-colors">
             <CardHeader className="p-4 pb-2">
               <div className="flex items-center justify-between">
-                <FolderLock className="h-4 w-4 text-muted-foreground" />
-                <Badge variant="outline" className="text-[10px]">Control</Badge>
+                <FolderLock className="text-muted-foreground h-4 w-4" />
+                <Badge variant="outline" className="text-[10px]">
+                  Control
+                </Badge>
               </div>
-              <CardTitle className="text-sm font-bold mt-2">Period Lock</CardTitle>
+              <CardTitle className="mt-2 text-sm font-bold">
+                Period Lock
+              </CardTitle>
             </CardHeader>
             <CardContent className="p-4 pt-1">
-              <Button asChild variant="outline" size="xs" className="w-full justify-between">
+              <Button
+                asChild
+                variant="outline"
+                size="xs"
+                className="w-full justify-between"
+              >
                 <Link href="/dashboard/admin/period">
-                  Open <ArrowRight className="h-3 w-3 ml-1" />
+                  Open <ArrowRight className="ml-1 h-3 w-3" />
                 </Link>
               </Button>
             </CardContent>
@@ -306,15 +405,24 @@ export default async function DashboardOverviewPage() {
           <Card className="border-border hover:bg-muted/30 transition-colors">
             <CardHeader className="p-4 pb-2">
               <div className="flex items-center justify-between">
-                <ShieldCheck className="h-4 w-4 text-muted-foreground" />
-                <Badge variant="outline" className="text-[10px]">Audit</Badge>
+                <ShieldCheck className="text-muted-foreground h-4 w-4" />
+                <Badge variant="outline" className="text-[10px]">
+                  Audit
+                </Badge>
               </div>
-              <CardTitle className="text-sm font-bold mt-2">Auditor Console</CardTitle>
+              <CardTitle className="mt-2 text-sm font-bold">
+                Auditor Console
+              </CardTitle>
             </CardHeader>
             <CardContent className="p-4 pt-1">
-              <Button asChild variant="outline" size="xs" className="w-full justify-between">
+              <Button
+                asChild
+                variant="outline"
+                size="xs"
+                className="w-full justify-between"
+              >
                 <Link href="/dashboard/audit">
-                  Open <ArrowRight className="h-3 w-3 ml-1" />
+                  Open <ArrowRight className="ml-1 h-3 w-3" />
                 </Link>
               </Button>
             </CardContent>

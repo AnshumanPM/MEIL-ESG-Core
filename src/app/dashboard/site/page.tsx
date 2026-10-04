@@ -22,24 +22,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  AlertTriangle,
-  FilePlus2,
-  Layers,
-  Send,
-} from "lucide-react";
+import { AlertTriangle, FilePlus2, Layers, Send } from "lucide-react";
 
 export default async function SiteDashboardPage() {
   const ctx = await getAuthContext();
 
   if (!ctx.site) {
-    return (
-      <HqNotice
-        orgId={ctx.orgId}
-        isHq={ctx.isHq}
-        orgRole={ctx.orgRole}
-      />
-    );
+    return <HqNotice orgId={ctx.orgId} isHq={ctx.isHq} orgRole={ctx.orgRole} />;
   }
 
   const site = ctx.site;
@@ -103,8 +92,8 @@ export default async function SiteDashboardPage() {
     .where(
       and(
         eq(emissionEntries.siteId, site.id),
-        eq(emissionEntries.status, "REJECTED")
-      )
+        eq(emissionEntries.status, "REJECTED"),
+      ),
     )
     .orderBy(desc(emissionEntries.updatedAt))
     .limit(5);
@@ -123,25 +112,27 @@ export default async function SiteDashboardPage() {
     ctx.orgRole.includes("member");
 
   return (
-    <div className="space-y-6 max-w-6xl">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border pb-4">
+    <div className="max-w-6xl space-y-6">
+      <div className="border-border flex flex-col justify-between gap-3 border-b pb-4 sm:flex-row sm:items-center">
         <div>
-          <div className="flex items-center gap-2 mb-1">
+          <div className="mb-1 flex items-center gap-2">
             <Badge variant="outline" className="font-mono text-xs">
               {site.id}
             </Badge>
-            <Badge variant="secondary" className="text-xs">{bu?.name || site.buId}</Badge>
-            <Badge variant="outline" className="text-xs">{site.stateCode}</Badge>
+            <Badge variant="secondary" className="text-xs">
+              {bu?.name || site.buId}
+            </Badge>
+            <Badge variant="outline" className="text-xs">
+              {site.stateCode}
+            </Badge>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight">
-            {site.name}
-          </h1>
+          <h1 className="text-2xl font-bold tracking-tight">{site.name}</h1>
         </div>
 
         <div className="flex items-center gap-2">
           <Button asChild size="sm">
             <Link href="/dashboard/site/entries/new">
-              <FilePlus2 className="h-4 w-4 mr-1.5" />
+              <FilePlus2 className="mr-1.5 h-4 w-4" />
               New Entry
             </Link>
           </Button>
@@ -149,7 +140,7 @@ export default async function SiteDashboardPage() {
           {statusMap.DRAFT > 0 && (
             <Button asChild variant="outline" size="sm">
               <Link href="/dashboard/site/submit">
-                <Send className="h-4 w-4 mr-1.5" />
+                <Send className="mr-1.5 h-4 w-4" />
                 Submit {statusMap.DRAFT} Draft(s)
               </Link>
             </Button>
@@ -157,7 +148,7 @@ export default async function SiteDashboardPage() {
 
           <Button asChild variant="ghost" size="sm">
             <Link href="/dashboard/site/entries">
-              <Layers className="h-4 w-4 mr-1.5" />
+              <Layers className="mr-1.5 h-4 w-4" />
               Ledger
             </Link>
           </Button>
@@ -170,14 +161,21 @@ export default async function SiteDashboardPage() {
           <AlertTitle className="text-xs font-semibold">
             {rejectedEntries.length} Rejected Submission(s)
           </AlertTitle>
-          <AlertDescription className="text-xs mt-1 space-y-1.5">
+          <AlertDescription className="mt-1 space-y-1.5 text-xs">
             {rejectedEntries.map((re) => (
-              <div key={re.id} className="flex items-center justify-between border-t border-destructive/20 pt-1.5">
+              <div
+                key={re.id}
+                className="border-destructive/20 flex items-center justify-between border-t pt-1.5"
+              >
                 <div>
-                  <span className="font-medium">{re.sourceName}</span> ({re.quantity} {re.unit}) &bull; {re.rejectReason || "Correction needed"}
+                  <span className="font-medium">{re.sourceName}</span> (
+                  {re.quantity} {re.unit}) &bull;{" "}
+                  {re.rejectReason || "Correction needed"}
                 </div>
                 <Button asChild size="xs" variant="outline">
-                  <Link href={`/dashboard/site/entries?edit=${re.id}`}>Edit</Link>
+                  <Link href={`/dashboard/site/entries?edit=${re.id}`}>
+                    Edit
+                  </Link>
                 </Button>
               </div>
             ))}
@@ -185,67 +183,89 @@ export default async function SiteDashboardPage() {
         </Alert>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <Card className="border-border">
           <CardHeader className="p-4 pb-2">
-            <CardDescription className="text-xs uppercase font-medium">Scope 1 (Direct)</CardDescription>
+            <CardDescription className="text-xs font-medium uppercase">
+              Scope 1 (Direct)
+            </CardDescription>
             <CardTitle className="text-2xl font-bold">
               {scopeMap.SCOPE_1.total.toFixed(3)}{" "}
-              <span className="text-xs font-normal text-muted-foreground">tCO₂e</span>
+              <span className="text-muted-foreground text-xs font-normal">
+                tCO₂e
+              </span>
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-4 pt-0 text-[11px] text-muted-foreground">
+          <CardContent className="text-muted-foreground p-4 pt-0 text-[11px]">
             {scopeMap.SCOPE_1.count} entries
           </CardContent>
         </Card>
 
         <Card className="border-border">
           <CardHeader className="p-4 pb-2">
-            <CardDescription className="text-xs uppercase font-medium">Scope 2 (Electricity)</CardDescription>
+            <CardDescription className="text-xs font-medium uppercase">
+              Scope 2 (Electricity)
+            </CardDescription>
             <CardTitle className="text-2xl font-bold">
               {scopeMap.SCOPE_2.total.toFixed(3)}{" "}
-              <span className="text-xs font-normal text-muted-foreground">tCO₂e</span>
+              <span className="text-muted-foreground text-xs font-normal">
+                tCO₂e
+              </span>
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-4 pt-0 text-[11px] text-muted-foreground">
+          <CardContent className="text-muted-foreground p-4 pt-0 text-[11px]">
             {scopeMap.SCOPE_2.count} entries
           </CardContent>
         </Card>
 
         <Card className="border-border">
           <CardHeader className="p-4 pb-2">
-            <CardDescription className="text-xs uppercase font-medium">Scope 3 (Value Chain)</CardDescription>
+            <CardDescription className="text-xs font-medium uppercase">
+              Scope 3 (Value Chain)
+            </CardDescription>
             <CardTitle className="text-2xl font-bold">
               {scopeMap.SCOPE_3.total.toFixed(3)}{" "}
-              <span className="text-xs font-normal text-muted-foreground">tCO₂e</span>
+              <span className="text-muted-foreground text-xs font-normal">
+                tCO₂e
+              </span>
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-4 pt-0 text-[11px] text-muted-foreground">
+          <CardContent className="text-muted-foreground p-4 pt-0 text-[11px]">
             {scopeMap.SCOPE_3.count} entries
           </CardContent>
         </Card>
       </div>
 
       <div className="grid grid-cols-5 gap-2">
-        <div className="rounded-md border border-border bg-card p-2.5 text-center">
-          <div className="text-[10px] text-muted-foreground uppercase font-medium">Drafts</div>
-          <div className="text-lg font-bold mt-0.5">{statusMap.DRAFT}</div>
+        <div className="border-border bg-card rounded-md border p-2.5 text-center">
+          <div className="text-muted-foreground text-[10px] font-medium uppercase">
+            Drafts
+          </div>
+          <div className="mt-0.5 text-lg font-bold">{statusMap.DRAFT}</div>
         </div>
-        <div className="rounded-md border border-border bg-card p-2.5 text-center">
-          <div className="text-[10px] text-muted-foreground uppercase font-medium">Submitted</div>
-          <div className="text-lg font-bold mt-0.5">{statusMap.SUBMITTED}</div>
+        <div className="border-border bg-card rounded-md border p-2.5 text-center">
+          <div className="text-muted-foreground text-[10px] font-medium uppercase">
+            Submitted
+          </div>
+          <div className="mt-0.5 text-lg font-bold">{statusMap.SUBMITTED}</div>
         </div>
-        <div className="rounded-md border border-border bg-card p-2.5 text-center">
-          <div className="text-[10px] text-muted-foreground uppercase font-medium">Approved</div>
-          <div className="text-lg font-bold mt-0.5">{statusMap.APPROVED}</div>
+        <div className="border-border bg-card rounded-md border p-2.5 text-center">
+          <div className="text-muted-foreground text-[10px] font-medium uppercase">
+            Approved
+          </div>
+          <div className="mt-0.5 text-lg font-bold">{statusMap.APPROVED}</div>
         </div>
-        <div className="rounded-md border border-border bg-card p-2.5 text-center">
-          <div className="text-[10px] text-muted-foreground uppercase font-medium">Rejected</div>
-          <div className="text-lg font-bold mt-0.5">{statusMap.REJECTED}</div>
+        <div className="border-border bg-card rounded-md border p-2.5 text-center">
+          <div className="text-muted-foreground text-[10px] font-medium uppercase">
+            Rejected
+          </div>
+          <div className="mt-0.5 text-lg font-bold">{statusMap.REJECTED}</div>
         </div>
-        <div className="rounded-md border border-border bg-card p-2.5 text-center">
-          <div className="text-[10px] text-muted-foreground uppercase font-medium">Locked</div>
-          <div className="text-lg font-bold mt-0.5">{statusMap.LOCKED}</div>
+        <div className="border-border bg-card rounded-md border p-2.5 text-center">
+          <div className="text-muted-foreground text-[10px] font-medium uppercase">
+            Locked
+          </div>
+          <div className="mt-0.5 text-lg font-bold">{statusMap.LOCKED}</div>
         </div>
       </div>
 
@@ -257,7 +277,7 @@ export default async function SiteDashboardPage() {
           </Button>
         </div>
 
-        <div className="rounded-lg border bg-card overflow-hidden">
+        <div className="bg-card overflow-hidden rounded-lg border">
           <Table>
             <TableHeader>
               <TableRow>
@@ -273,19 +293,26 @@ export default async function SiteDashboardPage() {
             <TableBody>
               {recentEntries.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="h-20 text-center text-xs text-muted-foreground">
+                  <TableCell
+                    colSpan={7}
+                    className="text-muted-foreground h-20 text-center text-xs"
+                  >
                     No entries logged yet.
                   </TableCell>
                 </TableRow>
               ) : (
                 recentEntries.map((row) => (
                   <TableRow key={row.id}>
-                    <TableCell className="font-mono text-xs text-muted-foreground">
+                    <TableCell className="text-muted-foreground font-mono text-xs">
                       {row.entryDate}
                     </TableCell>
                     <TableCell>
                       <Badge variant="outline" className="text-[10px]">
-                        {row.scope === "SCOPE_1" ? "Scope 1" : row.scope === "SCOPE_2" ? "Scope 2" : "Scope 3"}
+                        {row.scope === "SCOPE_1"
+                          ? "Scope 1"
+                          : row.scope === "SCOPE_2"
+                            ? "Scope 2"
+                            : "Scope 3"}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-xs font-medium">
@@ -299,18 +326,20 @@ export default async function SiteDashboardPage() {
                     </TableCell>
                     <TableCell>
                       <Badge
-                        variant={row.status === "APPROVED" ? "default" : "outline"}
+                        variant={
+                          row.status === "APPROVED" ? "default" : "outline"
+                        }
                         className="text-[10px]"
                       >
                         {row.status === "DRAFT"
                           ? "Draft"
                           : row.status === "SUBMITTED"
-                          ? "Submitted"
-                          : row.status === "APPROVED"
-                          ? "Approved"
-                          : row.status === "REJECTED"
-                          ? "Rejected"
-                          : "Locked"}
+                            ? "Submitted"
+                            : row.status === "APPROVED"
+                              ? "Approved"
+                              : row.status === "REJECTED"
+                                ? "Rejected"
+                                : "Locked"}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right">

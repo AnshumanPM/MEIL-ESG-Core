@@ -154,7 +154,7 @@ export function AuditorConsole({ entries }: { entries: AuditEntryItem[] }) {
   };
 
   return (
-    <div className="space-y-4 max-w-6xl">
+    <div className="max-w-6xl space-y-4">
       {actionError && (
         <Alert variant="destructive">
           <AlertTriangle className="h-4 w-4" />
@@ -167,26 +167,33 @@ export function AuditorConsole({ entries }: { entries: AuditEntryItem[] }) {
         <Alert>
           <CheckCircle className="h-4 w-4" />
           <AlertTitle className="text-xs font-semibold">Success</AlertTitle>
-          <AlertDescription className="text-xs">{actionSuccess}</AlertDescription>
+          <AlertDescription className="text-xs">
+            {actionSuccess}
+          </AlertDescription>
         </Alert>
       )}
 
-      <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
-        <div className="relative flex-1 max-w-sm">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+      <div className="flex flex-col items-stretch justify-between gap-3 sm:flex-row sm:items-center">
+        <div className="relative max-w-sm flex-1">
+          <Search className="text-muted-foreground absolute top-2.5 left-2.5 h-4 w-4" />
           <Input
             placeholder="Search entries..."
-            className="pl-9 h-9 text-xs"
+            className="h-9 pl-9 text-xs"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <Select value={siteFilter} onValueChange={(val) => val && setSiteFilter(val)}>
+          <Select
+            value={siteFilter}
+            onValueChange={(val) => val && setSiteFilter(val)}
+          >
             <SelectTrigger className="h-9 min-w-[140px] text-xs">
               <SelectValue>
-                {siteFilter === "ALL" ? "All Sites" : siteNames[siteFilter] || siteFilter}
+                {siteFilter === "ALL"
+                  ? "All Sites"
+                  : siteNames[siteFilter] || siteFilter}
               </SelectValue>
             </SelectTrigger>
             <SelectContent>
@@ -199,16 +206,19 @@ export function AuditorConsole({ entries }: { entries: AuditEntryItem[] }) {
             </SelectContent>
           </Select>
 
-          <Select value={statusFilter} onValueChange={(val) => val && setStatusFilter(val)}>
+          <Select
+            value={statusFilter}
+            onValueChange={(val) => val && setStatusFilter(val)}
+          >
             <SelectTrigger className="h-9 w-[130px] text-xs">
               <SelectValue>
                 {statusFilter === "ALL"
                   ? "All Statuses"
                   : statusFilter === "NONE"
-                  ? "Pending"
-                  : statusFilter === "VERIFIED"
-                  ? "Verified"
-                  : "Flagged"}
+                    ? "Pending"
+                    : statusFilter === "VERIFIED"
+                      ? "Verified"
+                      : "Flagged"}
               </SelectValue>
             </SelectTrigger>
             <SelectContent>
@@ -221,7 +231,7 @@ export function AuditorConsole({ entries }: { entries: AuditEntryItem[] }) {
         </div>
       </div>
 
-      <div className="rounded-lg border bg-card overflow-hidden">
+      <div className="bg-card overflow-hidden rounded-lg border">
         <Table>
           <TableHeader>
             <TableRow>
@@ -240,7 +250,7 @@ export function AuditorConsole({ entries }: { entries: AuditEntryItem[] }) {
               <TableRow>
                 <TableCell
                   colSpan={8}
-                  className="h-20 text-center text-muted-foreground text-xs"
+                  className="text-muted-foreground h-20 text-center text-xs"
                 >
                   No matching entries found.
                 </TableCell>
@@ -249,15 +259,15 @@ export function AuditorConsole({ entries }: { entries: AuditEntryItem[] }) {
               filtered.map((item) => (
                 <TableRow key={item.id}>
                   <TableCell>
-                    <div className="font-semibold text-xs text-foreground">
+                    <div className="text-foreground text-xs font-semibold">
                       {item.siteName}
                     </div>
-                    <div className="font-mono text-[10px] text-muted-foreground">
+                    <div className="text-muted-foreground font-mono text-[10px]">
                       {item.siteId} &bull; {item.financialYear}
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="font-medium text-xs text-foreground">
+                    <div className="text-foreground text-xs font-medium">
                       {item.sourceName}
                     </div>
                     <Badge variant="outline" className="text-[10px]">
@@ -267,10 +277,10 @@ export function AuditorConsole({ entries }: { entries: AuditEntryItem[] }) {
                   <TableCell className="text-xs">
                     {item.quantity} {item.unit}
                   </TableCell>
-                  <TableCell className="font-mono text-[11px] text-muted-foreground">
+                  <TableCell className="text-muted-foreground font-mono text-[11px]">
                     {item.factorValue} kg/unit
                   </TableCell>
-                  <TableCell className="font-semibold text-xs">
+                  <TableCell className="text-xs font-semibold">
                     {item.tco2e}
                   </TableCell>
                   <TableCell>
@@ -278,11 +288,11 @@ export function AuditorConsole({ entries }: { entries: AuditEntryItem[] }) {
                       <Button
                         variant="ghost"
                         size="xs"
-                        className="h-6 text-xs gap-1"
+                        className="h-6 gap-1 text-xs"
                         onClick={() =>
                           openDoc(
                             item.document!.id,
-                            item.document!.originalName
+                            item.document!.originalName,
                           )
                         }
                       >
@@ -292,14 +302,20 @@ export function AuditorConsole({ entries }: { entries: AuditEntryItem[] }) {
                         </span>
                       </Button>
                     ) : (
-                      <span className="text-[10px] text-muted-foreground">
+                      <span className="text-muted-foreground text-[10px]">
                         None
                       </span>
                     )}
                   </TableCell>
                   <TableCell>
                     <Badge
-                      variant={item.auditStatus === "VERIFIED" ? "secondary" : item.auditStatus === "FLAGGED" ? "destructive" : "outline"}
+                      variant={
+                        item.auditStatus === "VERIFIED"
+                          ? "secondary"
+                          : item.auditStatus === "FLAGGED"
+                            ? "destructive"
+                            : "outline"
+                      }
                       className="text-[10px]"
                     >
                       {item.auditStatus}
@@ -381,7 +397,7 @@ export function AuditorConsole({ entries }: { entries: AuditEntryItem[] }) {
       >
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle className="text-sm font-bold truncate">
+            <DialogTitle className="truncate text-sm font-bold">
               {docName}
             </DialogTitle>
           </DialogHeader>
@@ -389,34 +405,34 @@ export function AuditorConsole({ entries }: { entries: AuditEntryItem[] }) {
           <div className="py-2">
             {docLoading ? (
               <div className="flex h-48 items-center justify-center">
-                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                <Loader2 className="text-muted-foreground h-6 w-6 animate-spin" />
               </div>
             ) : docUrl ? (
-              <div className="rounded border bg-muted/20 p-2 flex flex-col items-center">
+              <div className="bg-muted/20 flex flex-col items-center rounded border p-2">
                 {docName.toLowerCase().endsWith(".pdf") ? (
                   <iframe
                     src={docUrl}
-                    className="w-full h-[400px] border-0 rounded"
+                    className="h-[400px] w-full rounded border-0"
                     title={docName}
                   />
                 ) : (
                   <img
                     src={docUrl}
                     alt={docName}
-                    className="max-h-[400px] object-contain rounded"
+                    className="max-h-[400px] rounded object-contain"
                   />
                 )}
                 <div className="mt-2">
                   <Button asChild size="xs" variant="outline">
                     <a href={docUrl} target="_blank" rel="noreferrer">
-                      <ExternalLink className="h-3 w-3 mr-1" />
+                      <ExternalLink className="mr-1 h-3 w-3" />
                       Open Original
                     </a>
                   </Button>
                 </div>
               </div>
             ) : (
-              <div className="text-center py-8 text-xs text-muted-foreground">
+              <div className="text-muted-foreground py-8 text-center text-xs">
                 Document unavailable.
               </div>
             )}

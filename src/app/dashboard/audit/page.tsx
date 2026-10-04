@@ -66,12 +66,10 @@ export default async function AuditPage() {
   }));
 
   return (
-    <div className="space-y-4 max-w-7xl">
-      <div className="border-b border-border pb-3">
-        <h1 className="text-xl font-bold tracking-tight">
-          Auditor Console
-        </h1>
-        <p className="text-xs text-muted-foreground mt-0.5">
+    <div className="max-w-7xl space-y-4">
+      <div className="border-border border-b pb-3">
+        <h1 className="text-xl font-bold tracking-tight">Auditor Console</h1>
+        <p className="text-muted-foreground mt-0.5 text-xs">
           Cross-site ledger verification and evidence validation.
         </p>
       </div>

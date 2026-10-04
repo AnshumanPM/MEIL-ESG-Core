@@ -1,11 +1,6 @@
 import "dotenv/config";
 import { db } from "./index";
-import {
-  businessUnits,
-  sites,
-  emissionFactors,
-  fyConfig,
-} from "./schema";
+import { businessUnits, sites, emissionFactors, fyConfig } from "./schema";
 import { eq } from "drizzle-orm";
 
 async function seed() {

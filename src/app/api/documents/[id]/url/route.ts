@@ -7,7 +7,7 @@ import { getPresignedR2Url } from "@/lib/r2";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params;
@@ -26,7 +26,10 @@ export async function GET(
       .limit(1);
 
     if (docResult.length === 0) {
-      return NextResponse.json({ error: "Document not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Document not found" },
+        { status: 404 },
+      );
     }
 
     const doc = docResult[0];
@@ -42,7 +45,7 @@ export async function GET(
         if (ctx.site.id !== doc.siteId) {
           return NextResponse.json(
             { error: "Access denied to document for another site" },
-            { status: 403 }
+            { status: 403 },
           );
         }
       } else {
@@ -52,13 +55,10 @@ export async function GET(
           .where(eq(sites.id, doc.siteId))
           .limit(1);
 
-        if (
-          siteRow.length === 0 ||
-          !ctx.buIds.includes(siteRow[0].buId)
-        ) {
+        if (siteRow.length === 0 || !ctx.buIds.includes(siteRow[0].buId)) {
           return NextResponse.json(
             { error: "Access denied to document for this Business Unit" },
-            { status: 403 }
+            { status: 403 },
           );
         }
       }
@@ -74,7 +74,7 @@ export async function GET(
   } catch (err: any) {
     return NextResponse.json(
       { error: err.message || "Failed to generate document link" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

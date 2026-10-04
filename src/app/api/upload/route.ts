@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     if (!file) {
       return NextResponse.json(
         { error: "No document file provided" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     if (file.size > maxSizeBytes) {
       return NextResponse.json(
         { error: "File size exceeds the 10 MB limit" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
           error:
             "Invalid file format. Only PDF, JPG, and PNG documents are allowed.",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
     if (!siteId) {
       return NextResponse.json(
         { error: "No associated project site found for upload" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
           error:
             "Duplicate file detected. This document hash has already been uploaded for this site.",
         },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
@@ -86,8 +86,8 @@ export async function POST(req: NextRequest) {
           and(
             eq(documents.siteId, siteId),
             eq(documents.docType, docType),
-            eq(documents.invoiceNumber, invoiceNumber)
-          )
+            eq(documents.invoiceNumber, invoiceNumber),
+          ),
         )
         .limit(1);
 
@@ -96,7 +96,7 @@ export async function POST(req: NextRequest) {
           {
             error: `Invoice number "${invoiceNumber}" for document type "${docType}" is already registered on this site.`,
           },
-          { status: 409 }
+          { status: 409 },
         );
       }
     }
@@ -121,7 +121,7 @@ export async function POST(req: NextRequest) {
   } catch (err: any) {
     return NextResponse.json(
       { error: err.message || "Failed to process document upload" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -34,7 +34,7 @@ export default async function ReviewQueuePage() {
     return (
       <div className="max-w-md py-8">
         <h2 className="text-base font-bold">Access Denied</h2>
-        <p className="text-xs text-muted-foreground mt-1">
+        <p className="text-muted-foreground mt-1 text-xs">
           Reviewer or Admin role is required.
         </p>
       </div>
@@ -61,33 +61,32 @@ export default async function ReviewQueuePage() {
     .from(emissionEntries)
     .innerJoin(sites, eq(emissionEntries.siteId, sites.id))
     .innerJoin(businessUnits, eq(sites.buId, businessUnits.id))
-    .where(
-      and(
-        eq(emissionEntries.status, "SUBMITTED"),
-        siteFilterCondition
-      )
-    )
+    .where(and(eq(emissionEntries.status, "SUBMITTED"), siteFilterCondition))
     .groupBy(
       emissionEntries.siteId,
       sites.name,
       sites.buId,
       businessUnits.name,
-      emissionEntries.financialYear
+      emissionEntries.financialYear,
     );
 
   const totalPendingTco2e = pendingSubmissions.reduce(
     (acc, curr) => acc + parseFloat(curr.totalTco2e),
-    0
+    0,
   );
 
   return (
-    <div className="space-y-6 max-w-6xl">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border pb-4">
+    <div className="max-w-6xl space-y-6">
+      <div className="border-border flex flex-col justify-between gap-3 border-b pb-4 sm:flex-row sm:items-center">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <Badge variant="outline" className="text-xs">Review Queue</Badge>
+          <div className="mb-1 flex items-center gap-2">
+            <Badge variant="outline" className="text-xs">
+              Review Queue
+            </Badge>
             <Badge variant="secondary" className="text-xs">
-              {isCorporateAdmin ? "All BUs" : assignedBuIds.join(", ") || "No BUs"}
+              {isCorporateAdmin
+                ? "All BUs"
+                : assignedBuIds.join(", ") || "No BUs"}
             </Badge>
           </div>
           <h1 className="text-2xl font-bold tracking-tight">
@@ -96,27 +95,37 @@ export default async function ReviewQueuePage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <Card className="border-border">
           <CardHeader className="p-3.5 pb-1">
-            <CardDescription className="text-xs uppercase font-medium">Pending Packages</CardDescription>
-            <CardTitle className="text-xl font-bold">{pendingSubmissions.length}</CardTitle>
-          </CardHeader>
-        </Card>
-
-        <Card className="border-border">
-          <CardHeader className="p-3.5 pb-1">
-            <CardDescription className="text-xs uppercase font-medium">Pending Emissions</CardDescription>
+            <CardDescription className="text-xs font-medium uppercase">
+              Pending Packages
+            </CardDescription>
             <CardTitle className="text-xl font-bold">
-              {totalPendingTco2e.toFixed(3)}{" "}
-              <span className="text-xs font-normal text-muted-foreground">tCO₂e</span>
+              {pendingSubmissions.length}
             </CardTitle>
           </CardHeader>
         </Card>
 
         <Card className="border-border">
           <CardHeader className="p-3.5 pb-1">
-            <CardDescription className="text-xs uppercase font-medium">Assigned BUs</CardDescription>
+            <CardDescription className="text-xs font-medium uppercase">
+              Pending Emissions
+            </CardDescription>
+            <CardTitle className="text-xl font-bold">
+              {totalPendingTco2e.toFixed(3)}{" "}
+              <span className="text-muted-foreground text-xs font-normal">
+                tCO₂e
+              </span>
+            </CardTitle>
+          </CardHeader>
+        </Card>
+
+        <Card className="border-border">
+          <CardHeader className="p-3.5 pb-1">
+            <CardDescription className="text-xs font-medium uppercase">
+              Assigned BUs
+            </CardDescription>
             <CardTitle className="text-xl font-bold">
               {isCorporateAdmin ? "ALL" : assignedBuIds.length}
             </CardTitle>
@@ -124,7 +133,7 @@ export default async function ReviewQueuePage() {
         </Card>
       </div>
 
-      <div className="rounded-lg border bg-card overflow-hidden">
+      <div className="bg-card overflow-hidden rounded-lg border">
         <Table>
           <TableHeader>
             <TableRow>
@@ -142,7 +151,7 @@ export default async function ReviewQueuePage() {
               <TableRow>
                 <TableCell
                   colSpan={7}
-                  className="h-24 text-center text-muted-foreground text-xs"
+                  className="text-muted-foreground h-24 text-center text-xs"
                 >
                   No pending submissions waiting for review.
                 </TableCell>
@@ -151,10 +160,10 @@ export default async function ReviewQueuePage() {
               pendingSubmissions.map((sub) => (
                 <TableRow key={`${sub.siteId}-${sub.financialYear}`}>
                   <TableCell>
-                    <div className="font-semibold text-xs text-foreground">
+                    <div className="text-foreground text-xs font-semibold">
                       {sub.siteName}
                     </div>
-                    <div className="font-mono text-[10px] text-muted-foreground">
+                    <div className="text-muted-foreground font-mono text-[10px]">
                       {sub.siteId}
                     </div>
                   </TableCell>
@@ -163,13 +172,11 @@ export default async function ReviewQueuePage() {
                       {sub.buId}
                     </Badge>
                   </TableCell>
-                  <TableCell className="font-mono text-xs text-muted-foreground">
+                  <TableCell className="text-muted-foreground font-mono text-xs">
                     {sub.financialYear}
                   </TableCell>
-                  <TableCell className="text-xs">
-                    {sub.entryCount}
-                  </TableCell>
-                  <TableCell className="font-semibold text-xs">
+                  <TableCell className="text-xs">{sub.entryCount}</TableCell>
+                  <TableCell className="text-xs font-semibold">
                     {parseFloat(sub.totalTco2e).toFixed(3)} tCO₂e
                   </TableCell>
                   <TableCell>
@@ -179,8 +186,10 @@ export default async function ReviewQueuePage() {
                   </TableCell>
                   <TableCell className="text-right">
                     <Button asChild size="xs" variant="outline">
-                      <Link href={`/dashboard/review/${sub.siteId}/${sub.financialYear}`}>
-                        Review <ArrowRight className="h-3 w-3 ml-1" />
+                      <Link
+                        href={`/dashboard/review/${sub.siteId}/${sub.financialYear}`}
+                      >
+                        Review <ArrowRight className="ml-1 h-3 w-3" />
                       </Link>
                     </Button>
                   </TableCell>

@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -16,11 +11,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Download,
-  FileSpreadsheet,
-  Printer,
-} from "lucide-react";
+import { Download, FileSpreadsheet, Printer } from "lucide-react";
 
 interface BrsrMetricRow {
   parameter: string;
@@ -80,9 +71,10 @@ export function BrsrReportClient({
       `"${m.source}"`,
     ]);
 
-    const csvContent = [headers.join(","), ...rows.map((r) => r.join(","))].join(
-      "\n"
-    );
+    const csvContent = [
+      headers.join(","),
+      ...rows.map((r) => r.join(",")),
+    ].join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
@@ -133,18 +125,16 @@ export function BrsrReportClient({
       `"${e.docSha256}"`,
     ]);
 
-    const csvContent = [headers.join(","), ...rows.map((r) => r.join(","))].join(
-      "\n"
-    );
+    const csvContent = [
+      headers.join(","),
+      ...rows.map((r) => r.join(",")),
+    ].join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.setAttribute("href", url);
-    link.setAttribute(
-      "download",
-      `MEIL_AuditPack_${currentFy}.csv`
-    );
+    link.setAttribute("download", `MEIL_AuditPack_${currentFy}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -155,8 +145,8 @@ export function BrsrReportClient({
   };
 
   return (
-    <div className="space-y-4 max-w-6xl">
-      <div className="flex flex-wrap items-center justify-between gap-2 bg-card border border-border rounded-lg p-3 print:hidden">
+    <div className="max-w-6xl space-y-4">
+      <div className="bg-card border-border flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3 print:hidden">
         <div className="flex items-center gap-2">
           <Badge variant="outline" className="text-xs">
             SEBI BRSR Principle 6
@@ -164,42 +154,30 @@ export function BrsrReportClient({
         </div>
 
         <div className="flex items-center gap-2">
-          <Button
-            size="xs"
-            variant="outline"
-            onClick={downloadBrsrCsv}
-          >
-            <Download className="h-3 w-3 mr-1" />
+          <Button size="xs" variant="outline" onClick={downloadBrsrCsv}>
+            <Download className="mr-1 h-3 w-3" />
             Table CSV
           </Button>
 
-          <Button
-            size="xs"
-            variant="outline"
-            onClick={downloadAuditPackCsv}
-          >
-            <FileSpreadsheet className="h-3 w-3 mr-1" />
+          <Button size="xs" variant="outline" onClick={downloadAuditPackCsv}>
+            <FileSpreadsheet className="mr-1 h-3 w-3" />
             Audit Pack CSV
           </Button>
 
-          <Button
-            size="xs"
-            variant="secondary"
-            onClick={handlePrint}
-          >
-            <Printer className="h-3 w-3 mr-1" />
+          <Button size="xs" variant="secondary" onClick={handlePrint}>
+            <Printer className="mr-1 h-3 w-3" />
             Print
           </Button>
         </div>
       </div>
 
       <Card className="border-border">
-        <CardHeader className="p-4 pb-2 border-b border-border">
+        <CardHeader className="border-border border-b p-4 pb-2">
           <div className="flex items-center justify-between">
             <CardTitle className="text-base font-bold">
               Principle 6: Environmental Performance &amp; GHG Emissions
             </CardTitle>
-            <div className="text-right text-xs text-muted-foreground font-mono">
+            <div className="text-muted-foreground text-right font-mono text-xs">
               Megha Engineering &amp; Infrastructures Ltd.
             </div>
           </div>
@@ -209,15 +187,17 @@ export function BrsrReportClient({
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/40">
-                <TableHead className="font-semibold text-foreground">Parameter</TableHead>
+                <TableHead className="text-foreground font-semibold">
+                  Parameter
+                </TableHead>
                 <TableHead className="w-24">Unit</TableHead>
-                <TableHead className="font-semibold text-foreground text-right">
+                <TableHead className="text-foreground text-right font-semibold">
                   FY {currentFy}
                 </TableHead>
-                <TableHead className="font-semibold text-foreground text-right">
+                <TableHead className="text-foreground text-right font-semibold">
                   FY {previousFy}
                 </TableHead>
-                <TableHead className="w-48 text-muted-foreground text-xs">
+                <TableHead className="text-muted-foreground w-48 text-xs">
                   Source
                 </TableHead>
               </TableRow>
@@ -228,32 +208,33 @@ export function BrsrReportClient({
                   key={row.parameter}
                   className={idx % 2 === 0 ? "bg-background" : "bg-muted/10"}
                 >
-                  <TableCell className="font-medium text-xs">
+                  <TableCell className="text-xs font-medium">
                     {row.parameter}
                   </TableCell>
-                  <TableCell className="font-mono text-xs text-muted-foreground">
+                  <TableCell className="text-muted-foreground font-mono text-xs">
                     {row.unit}
                   </TableCell>
-                  <TableCell className="font-mono font-bold text-xs text-right">
+                  <TableCell className="text-right font-mono text-xs font-bold">
                     {row.currentFyValue}
                   </TableCell>
-                  <TableCell className="font-mono text-xs text-right text-muted-foreground">
+                  <TableCell className="text-muted-foreground text-right font-mono text-xs">
                     {row.previousFyValue}
                   </TableCell>
-                  <TableCell className="text-[11px] text-muted-foreground">
+                  <TableCell className="text-muted-foreground text-[11px]">
                     {row.source}
                   </TableCell>
                 </TableRow>
               ))}
 
               <TableRow className="border-t">
-                <TableCell className="font-medium text-xs">
-                  Independent assessment / assurance carried out by external agency
+                <TableCell className="text-xs font-medium">
+                  Independent assessment / assurance carried out by external
+                  agency
                 </TableCell>
-                <TableCell className="font-mono text-xs text-muted-foreground">
+                <TableCell className="text-muted-foreground font-mono text-xs">
                   Yes / No
                 </TableCell>
-                <TableCell className="text-xs text-right font-medium">
+                <TableCell className="text-right text-xs font-medium">
                   {assuranceCurrent.done ? (
                     <Badge variant="secondary" className="text-[10px]">
                       Yes ({assuranceCurrent.agency || "Certified"})
@@ -262,14 +243,14 @@ export function BrsrReportClient({
                     <span className="text-muted-foreground">Pending</span>
                   )}
                 </TableCell>
-                <TableCell className="text-xs text-right text-muted-foreground">
+                <TableCell className="text-muted-foreground text-right text-xs">
                   {assurancePrevious.done ? (
                     <span>Yes ({assurancePrevious.agency})</span>
                   ) : (
                     <span>No</span>
                   )}
                 </TableCell>
-                <TableCell className="text-[11px] text-muted-foreground">
+                <TableCell className="text-muted-foreground text-[11px]">
                   Assurance Disclosure
                 </TableCell>
               </TableRow>

@@ -23,9 +23,9 @@ export default async function SubmissionReviewPage({
 
   if (!isBuReviewer && !isCorporateAdmin) {
     return (
-      <div className="container mx-auto py-12 px-4 max-w-lg text-center">
+      <div className="container mx-auto max-w-lg px-4 py-12 text-center">
         <h2 className="text-xl font-bold">Access Denied</h2>
-        <p className="text-xs text-muted-foreground mt-2">
+        <p className="text-muted-foreground mt-2 text-xs">
           BU Reviewer or Corporate Admin role is required.
         </p>
       </div>
@@ -47,7 +47,7 @@ export default async function SubmissionReviewPage({
 
   if (!site) {
     return (
-      <div className="container mx-auto py-12 px-4 max-w-lg text-center">
+      <div className="container mx-auto max-w-lg px-4 py-12 text-center">
         <h2 className="text-xl font-bold">Site Not Found</h2>
       </div>
     );
@@ -55,10 +55,13 @@ export default async function SubmissionReviewPage({
 
   if (!isCorporateAdmin && !ctx.buIds.includes(site.buId)) {
     return (
-      <div className="container mx-auto py-12 px-4 max-w-lg text-center">
-        <h2 className="text-xl font-bold text-destructive">Access Prohibited</h2>
-        <p className="text-xs text-muted-foreground mt-2">
-          You are not assigned to review submissions from Business Unit {site.buId}.
+      <div className="container mx-auto max-w-lg px-4 py-12 text-center">
+        <h2 className="text-destructive text-xl font-bold">
+          Access Prohibited
+        </h2>
+        <p className="text-muted-foreground mt-2 text-xs">
+          You are not assigned to review submissions from Business Unit{" "}
+          {site.buId}.
         </p>
       </div>
     );
@@ -89,8 +92,8 @@ export default async function SubmissionReviewPage({
       and(
         eq(emissionEntries.siteId, siteId),
         eq(emissionEntries.financialYear, month),
-        eq(emissionEntries.status, "SUBMITTED")
-      )
+        eq(emissionEntries.status, "SUBMITTED"),
+      ),
     );
 
   const entries = rawEntries.map((r) => ({
@@ -117,13 +120,18 @@ export default async function SubmissionReviewPage({
   }));
 
   return (
-    <div className="container mx-auto py-8 px-4 sm:px-6 space-y-6 max-w-7xl">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-5">
+    <div className="container mx-auto max-w-7xl space-y-6 px-4 py-8 sm:px-6">
+      <div className="flex flex-col justify-between gap-4 border-b pb-5 sm:flex-row sm:items-center">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <Button asChild variant="ghost" size="xs" className="h-6 px-1.5 text-xs">
+          <div className="mb-1 flex items-center gap-2">
+            <Button
+              asChild
+              variant="ghost"
+              size="xs"
+              className="h-6 px-1.5 text-xs"
+            >
               <Link href="/dashboard/review">
-                <ArrowLeft className="h-3.5 w-3.5 mr-1" />
+                <ArrowLeft className="mr-1 h-3.5 w-3.5" />
                 Queue
               </Link>
             </Button>
@@ -136,7 +144,7 @@ export default async function SubmissionReviewPage({
           <h1 className="text-2xl font-bold tracking-tight">
             Review Submission: {site.name}
           </h1>
-          <p className="text-sm text-muted-foreground mt-0.5">
+          <p className="text-muted-foreground mt-0.5 text-sm">
             Cross-verify invoice documentation against claimed activity metrics.
           </p>
         </div>

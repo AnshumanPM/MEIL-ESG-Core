@@ -50,25 +50,26 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
     organization?.name?.toLowerCase().includes("hq") ||
     organization?.slug?.toLowerCase().includes("hq") ||
     orgRole === "org:corporate_admin" ||
-    orgRole === "corporate_admin"
+    orgRole === "corporate_admin",
   );
 
   const isCorporateAdmin = Boolean(
     orgRole === "org:corporate_admin" ||
     orgRole === "corporate_admin" ||
     (isHqOrg && (orgRole === "org:admin" || orgRole === "admin")) ||
-    (isHqOrg && !orgRole?.includes("auditor") && !orgRole?.includes("reviewer"))
+    (isHqOrg &&
+      !orgRole?.includes("auditor") &&
+      !orgRole?.includes("reviewer")),
   );
 
   const isAuditor = Boolean(
-    orgRole === "org:external_auditor" ||
-    orgRole === "external_auditor"
+    orgRole === "org:external_auditor" || orgRole === "external_auditor",
   );
 
   const isBuReviewer = Boolean(
     orgRole === "org:bu_reviewer" ||
     orgRole === "bu_reviewer" ||
-    isCorporateAdmin
+    isCorporateAdmin,
   );
 
   const isSiteRole = Boolean(
@@ -82,7 +83,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       orgRole?.includes("site") ||
       orgRole === "org:member" ||
       orgRole === "member" ||
-      !orgRole)
+      !orgRole),
   );
 
   const isSiteManager = Boolean(
@@ -91,26 +92,29 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       orgRole === "site_manager" ||
       orgRole === "org:site_operator" ||
       orgRole === "site_operator" ||
-      !orgRole)
+      !orgRole),
   );
 
   return (
     <TooltipProvider>
       <SidebarProvider>
-        <Sidebar collapsible="icon" className="border-r border-border bg-sidebar">
-          <SidebarHeader className="border-b border-border p-3">
+        <Sidebar
+          collapsible="icon"
+          className="border-border bg-sidebar border-r"
+        >
+          <SidebarHeader className="border-border border-b p-3">
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton size="lg" asChild>
                   <Link href="/dashboard">
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-primary font-bold text-xs text-primary-foreground">
+                    <div className="bg-primary text-primary-foreground flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-xs font-bold">
                       M
                     </div>
                     <div className="flex flex-col gap-0.5 leading-none">
-                      <span className="text-xs font-semibold tracking-tight text-foreground">
+                      <span className="text-foreground text-xs font-semibold tracking-tight">
                         MEIL ESG
                       </span>
-                      <span className="text-[10px] text-muted-foreground">
+                      <span className="text-muted-foreground text-[10px]">
                         BRSR Principle 6
                       </span>
                     </div>
@@ -123,13 +127,16 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           <SidebarContent>
             {isSiteRole && (
               <SidebarGroup>
-                <SidebarGroupLabel className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                <SidebarGroupLabel className="text-muted-foreground text-[10px] tracking-wider uppercase">
                   Site Operations
                 </SidebarGroupLabel>
                 <SidebarGroupContent>
                   <SidebarMenu>
                     <SidebarMenuItem>
-                      <SidebarMenuButton asChild isActive={pathname === "/dashboard/site"}>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={pathname === "/dashboard/site"}
+                      >
                         <Link href="/dashboard/site">
                           <LayoutDashboard className="h-4 w-4 shrink-0" />
                           <span>Dashboard</span>
@@ -137,7 +144,10 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
-                      <SidebarMenuButton asChild isActive={pathname === "/dashboard/site/entries/new"}>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={pathname === "/dashboard/site/entries/new"}
+                      >
                         <Link href="/dashboard/site/entries/new">
                           <FilePlus2 className="h-4 w-4 shrink-0" />
                           <span>Log Entry</span>
@@ -145,7 +155,10 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
-                      <SidebarMenuButton asChild isActive={pathname === "/dashboard/site/entries"}>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={pathname === "/dashboard/site/entries"}
+                      >
                         <Link href="/dashboard/site/entries">
                           <Layers className="h-4 w-4 shrink-0" />
                           <span>Ledger</span>
@@ -154,7 +167,10 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                     </SidebarMenuItem>
                     {isSiteManager && (
                       <SidebarMenuItem>
-                        <SidebarMenuButton asChild isActive={pathname === "/dashboard/site/submit"}>
+                        <SidebarMenuButton
+                          asChild
+                          isActive={pathname === "/dashboard/site/submit"}
+                        >
                           <Link href="/dashboard/site/submit">
                             <Send className="h-4 w-4 shrink-0" />
                             <span>Submit Month</span>
@@ -169,13 +185,16 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
             {isBuReviewer && (
               <SidebarGroup>
-                <SidebarGroupLabel className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                <SidebarGroupLabel className="text-muted-foreground text-[10px] tracking-wider uppercase">
                   Verification
                 </SidebarGroupLabel>
                 <SidebarGroupContent>
                   <SidebarMenu>
                     <SidebarMenuItem>
-                      <SidebarMenuButton asChild isActive={pathname.startsWith("/dashboard/review")}>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={pathname.startsWith("/dashboard/review")}
+                      >
                         <Link href="/dashboard/review">
                           <FileCheck2 className="h-4 w-4 shrink-0" />
                           <span>Review Queue</span>
@@ -189,13 +208,16 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
             {isCorporateAdmin && (
               <SidebarGroup>
-                <SidebarGroupLabel className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                <SidebarGroupLabel className="text-muted-foreground text-[10px] tracking-wider uppercase">
                   Administration
                 </SidebarGroupLabel>
                 <SidebarGroupContent>
                   <SidebarMenu>
                     <SidebarMenuItem>
-                      <SidebarMenuButton asChild isActive={pathname === "/dashboard/admin/factors"}>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={pathname === "/dashboard/admin/factors"}
+                      >
                         <Link href="/dashboard/admin/factors">
                           <Layers className="h-4 w-4 shrink-0" />
                           <span>Factors Library</span>
@@ -203,7 +225,10 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
-                      <SidebarMenuButton asChild isActive={pathname === "/dashboard/admin/sites"}>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={pathname === "/dashboard/admin/sites"}
+                      >
                         <Link href="/dashboard/admin/sites">
                           <Building2 className="h-4 w-4 shrink-0" />
                           <span>Sites &amp; BUs</span>
@@ -211,7 +236,10 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
-                      <SidebarMenuButton asChild isActive={pathname === "/dashboard/admin/period"}>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={pathname === "/dashboard/admin/period"}
+                      >
                         <Link href="/dashboard/admin/period">
                           <FolderLock className="h-4 w-4 shrink-0" />
                           <span>Period Lock</span>
@@ -225,13 +253,16 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
             {(isCorporateAdmin || isAuditor || isBuReviewer) && (
               <SidebarGroup>
-                <SidebarGroupLabel className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                <SidebarGroupLabel className="text-muted-foreground text-[10px] tracking-wider uppercase">
                   Compliance &amp; Audit
                 </SidebarGroupLabel>
                 <SidebarGroupContent>
                   <SidebarMenu>
                     <SidebarMenuItem>
-                      <SidebarMenuButton asChild isActive={pathname === "/dashboard/reports/brsr"}>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={pathname === "/dashboard/reports/brsr"}
+                      >
                         <Link href="/dashboard/reports/brsr">
                           <BarChart3 className="h-4 w-4 shrink-0" />
                           <span>BRSR Report</span>
@@ -240,7 +271,10 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                     </SidebarMenuItem>
                     {(isAuditor || isCorporateAdmin) && (
                       <SidebarMenuItem>
-                        <SidebarMenuButton asChild isActive={pathname === "/dashboard/audit"}>
+                        <SidebarMenuButton
+                          asChild
+                          isActive={pathname === "/dashboard/audit"}
+                        >
                           <Link href="/dashboard/audit">
                             <ShieldCheck className="h-4 w-4 shrink-0" />
                             <span>Auditor Console</span>
@@ -254,7 +288,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             )}
           </SidebarContent>
 
-          <SidebarFooter className="border-t border-border p-3 space-y-2">
+          <SidebarFooter className="border-border space-y-2 border-t p-3">
             <OrganizationSwitcher
               hidePersonal
               appearance={{
@@ -266,8 +300,10 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               }}
             />
             <div className="flex items-center justify-between px-1">
-              <span className="text-[11px] text-muted-foreground truncate">
-                {orgRole ? orgRole.replace("org:", "").replace("_", " ") : "Member"}
+              <span className="text-muted-foreground truncate text-[11px]">
+                {orgRole
+                  ? orgRole.replace("org:", "").replace("_", " ")
+                  : "Member"}
               </span>
               <UserButton
                 appearance={{
@@ -282,11 +318,11 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         </Sidebar>
 
         <SidebarInset className="bg-background">
-          <header className="flex h-14 shrink-0 items-center justify-between border-b border-border bg-background px-4">
+          <header className="border-border bg-background flex h-14 shrink-0 items-center justify-between border-b px-4">
             <div className="flex items-center gap-2">
               <SidebarTrigger />
               <Separator orientation="vertical" className="h-4" />
-              <span className="text-xs font-medium text-foreground truncate">
+              <span className="text-foreground truncate text-xs font-medium">
                 {organization?.name || "MEIL Enterprise"}
               </span>
             </div>

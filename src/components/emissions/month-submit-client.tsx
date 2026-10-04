@@ -61,12 +61,12 @@ export function MonthSubmitClient({
       >
         {isPending ? (
           <>
-            <Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin" />
+            <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
             Submitting...
           </>
         ) : (
           <>
-            <Send className="h-3.5 w-3.5 mr-1.5" />
+            <Send className="mr-1.5 h-3.5 w-3.5" />
             Submit {draftCount} Entries for Review
           </>
         )}

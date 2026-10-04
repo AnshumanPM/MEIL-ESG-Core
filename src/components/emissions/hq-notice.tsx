@@ -21,12 +21,12 @@ export function HqNotice({
 }) {
   return (
     <Card className="max-w-xl">
-      <CardHeader className="p-4 pb-2 space-y-1">
+      <CardHeader className="space-y-1 p-4 pb-2">
         <div className="flex items-center justify-between">
           <Badge variant="outline" className="text-xs">
             {isHq ? "HQ Org" : "Unmapped Org"}
           </Badge>
-          <span className="text-[11px] font-mono text-muted-foreground">
+          <span className="text-muted-foreground font-mono text-[11px]">
             {orgId}
           </span>
         </div>
@@ -39,7 +39,7 @@ export function HqNotice({
             : "This organization is not mapped to a project site."}
         </CardDescription>
       </CardHeader>
-      <CardFooter className="flex items-center justify-between gap-2 p-4 pt-3 border-t">
+      <CardFooter className="flex items-center justify-between gap-2 border-t p-4 pt-3">
         <OrganizationSwitcher hidePersonal />
         <div className="flex gap-2">
           <Button asChild size="xs" variant="outline">

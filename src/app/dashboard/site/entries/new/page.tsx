@@ -9,13 +9,7 @@ export default async function NewEntryPage() {
   const ctx = await getAuthContext();
 
   if (!ctx.site) {
-    return (
-      <HqNotice
-        orgId={ctx.orgId}
-        isHq={ctx.isHq}
-        orgRole={ctx.orgRole}
-      />
-    );
+    return <HqNotice orgId={ctx.orgId} isHq={ctx.isHq} orgRole={ctx.orgRole} />;
   }
 
   const site = ctx.site;
@@ -33,21 +27,15 @@ export default async function NewEntryPage() {
     .from(emissionFactors);
 
   return (
-    <div className="space-y-4 max-w-5xl">
-      <div className="border-b border-border pb-3">
-        <h1 className="text-xl font-bold tracking-tight">
-          Log Emission Entry
-        </h1>
-        <p className="text-xs text-muted-foreground mt-0.5">
+    <div className="max-w-5xl space-y-4">
+      <div className="border-border border-b pb-3">
+        <h1 className="text-xl font-bold tracking-tight">Log Emission Entry</h1>
+        <p className="text-muted-foreground mt-0.5 text-xs">
           {site.name} ({site.id})
         </p>
       </div>
 
-      <EntryForm
-        factors={factors}
-        siteId={site.id}
-        siteName={site.name}
-      />
+      <EntryForm factors={factors} siteId={site.id} siteName={site.name} />
     </div>
   );
 }
