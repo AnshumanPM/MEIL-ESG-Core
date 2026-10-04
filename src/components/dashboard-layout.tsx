@@ -44,28 +44,55 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { orgRole } = useAuth();
   const { organization } = useOrganization();
 
-  const isSiteRole =
-    !orgRole ||
-    orgRole.includes("site") ||
-    orgRole.includes("admin") ||
-    orgRole.includes("member");
+  const orgMeta = (organization?.publicMetadata || {}) as Record<string, any>;
+  const isHqOrg = Boolean(
+    orgMeta.node_type === "HQ" ||
+    organization?.name?.toLowerCase().includes("hq") ||
+    organization?.slug?.toLowerCase().includes("hq") ||
+    orgRole === "org:corporate_admin" ||
+    orgRole === "corporate_admin"
+  );
 
-  const isSiteManager = isSiteRole;
+  const isCorporateAdmin = Boolean(
+    orgRole === "org:corporate_admin" ||
+    orgRole === "corporate_admin" ||
+    (isHqOrg && (orgRole === "org:admin" || orgRole === "admin")) ||
+    (isHqOrg && !orgRole?.includes("auditor") && !orgRole?.includes("reviewer"))
+  );
 
-  const isBuReviewer =
+  const isAuditor = Boolean(
+    orgRole === "org:external_auditor" ||
+    orgRole === "external_auditor"
+  );
+
+  const isBuReviewer = Boolean(
     orgRole === "org:bu_reviewer" ||
     orgRole === "bu_reviewer" ||
-    orgRole === "org:corporate_admin" ||
-    orgRole === "corporate_admin";
+    isCorporateAdmin
+  );
 
-  const isCorporateAdmin =
-    orgRole === "org:corporate_admin" || orgRole === "corporate_admin";
+  const isSiteRole = Boolean(
+    !isHqOrg &&
+    !isCorporateAdmin &&
+    !isAuditor &&
+    (orgRole === "org:site_manager" ||
+      orgRole === "site_manager" ||
+      orgRole === "org:site_operator" ||
+      orgRole === "site_operator" ||
+      orgRole?.includes("site") ||
+      orgRole === "org:member" ||
+      orgRole === "member" ||
+      !orgRole)
+  );
 
-  const isAuditor =
-    orgRole === "org:external_auditor" ||
-    orgRole === "external_auditor" ||
-    orgRole === "org:corporate_admin" ||
-    orgRole === "corporate_admin";
+  const isSiteManager = Boolean(
+    isSiteRole &&
+    (orgRole === "org:site_manager" ||
+      orgRole === "site_manager" ||
+      orgRole === "org:site_operator" ||
+      orgRole === "site_operator" ||
+      !orgRole)
+  );
 
   return (
     <TooltipProvider>
@@ -211,7 +238,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
-                    {isAuditor && (
+                    {(isAuditor || isCorporateAdmin) && (
                       <SidebarMenuItem>
                         <SidebarMenuButton asChild isActive={pathname === "/audit"}>
                           <Link href="/audit">

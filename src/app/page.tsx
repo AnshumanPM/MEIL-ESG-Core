@@ -168,75 +168,181 @@ export default async function HomePage() {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="border-border hover:bg-muted/30 transition-colors">
-          <CardHeader className="p-4 pb-2">
-            <div className="flex items-center justify-between">
-              <LayoutDashboard className="h-4 w-4 text-muted-foreground" />
-              <Badge variant="outline" className="text-[10px]">Site</Badge>
-            </div>
-            <CardTitle className="text-sm font-bold mt-2">Site Dashboard</CardTitle>
-          </CardHeader>
-          <CardContent className="p-4 pt-1">
-            <Button asChild variant="outline" size="xs" className="w-full justify-between">
-              <Link href="/site">
-                Open <ArrowRight className="h-3 w-3 ml-1" />
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
+      {site ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Card className="border-border hover:bg-muted/30 transition-colors">
+            <CardHeader className="p-4 pb-2">
+              <div className="flex items-center justify-between">
+                <LayoutDashboard className="h-4 w-4 text-muted-foreground" />
+                <Badge variant="outline" className="text-[10px]">Site</Badge>
+              </div>
+              <CardTitle className="text-sm font-bold mt-2">Site Dashboard</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 pt-1">
+              <Button asChild variant="outline" size="xs" className="w-full justify-between">
+                <Link href="/site">
+                  Open <ArrowRight className="h-3 w-3 ml-1" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
 
-        <Card className="border-border hover:bg-muted/30 transition-colors">
-          <CardHeader className="p-4 pb-2">
-            <div className="flex items-center justify-between">
-              <FileCheck2 className="h-4 w-4 text-muted-foreground" />
-              <Badge variant="outline" className="text-[10px]">Review</Badge>
-            </div>
-            <CardTitle className="text-sm font-bold mt-2">Review Queue</CardTitle>
-          </CardHeader>
-          <CardContent className="p-4 pt-1">
-            <Button asChild variant="outline" size="xs" className="w-full justify-between">
-              <Link href="/review">
-                Open <ArrowRight className="h-3 w-3 ml-1" />
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
+          <Card className="border-border hover:bg-muted/30 transition-colors">
+            <CardHeader className="p-4 pb-2">
+              <div className="flex items-center justify-between">
+                <FilePlus2 className="h-4 w-4 text-muted-foreground" />
+                <Badge variant="outline" className="text-[10px]">Activity</Badge>
+              </div>
+              <CardTitle className="text-sm font-bold mt-2">Log Entry</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 pt-1">
+              <Button asChild variant="outline" size="xs" className="w-full justify-between">
+                <Link href="/site/entries/new">
+                  Open <ArrowRight className="h-3 w-3 ml-1" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
 
-        <Card className="border-border hover:bg-muted/30 transition-colors">
-          <CardHeader className="p-4 pb-2">
-            <div className="flex items-center justify-between">
-              <BarChart3 className="h-4 w-4 text-muted-foreground" />
-              <Badge variant="outline" className="text-[10px]">BRSR</Badge>
-            </div>
-            <CardTitle className="text-sm font-bold mt-2">BRSR Report</CardTitle>
-          </CardHeader>
-          <CardContent className="p-4 pt-1">
-            <Button asChild variant="outline" size="xs" className="w-full justify-between">
-              <Link href="/reports/brsr">
-                Open <ArrowRight className="h-3 w-3 ml-1" />
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
+          <Card className="border-border hover:bg-muted/30 transition-colors">
+            <CardHeader className="p-4 pb-2">
+              <div className="flex items-center justify-between">
+                <Layers className="h-4 w-4 text-muted-foreground" />
+                <Badge variant="outline" className="text-[10px]">Records</Badge>
+              </div>
+              <CardTitle className="text-sm font-bold mt-2">Emissions Ledger</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 pt-1">
+              <Button asChild variant="outline" size="xs" className="w-full justify-between">
+                <Link href="/site/entries">
+                  Open <ArrowRight className="h-3 w-3 ml-1" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
 
-        <Card className="border-border hover:bg-muted/30 transition-colors">
-          <CardHeader className="p-4 pb-2">
-            <div className="flex items-center justify-between">
-              <ShieldCheck className="h-4 w-4 text-muted-foreground" />
-              <Badge variant="outline" className="text-[10px]">Audit</Badge>
-            </div>
-            <CardTitle className="text-sm font-bold mt-2">Auditor Console</CardTitle>
-          </CardHeader>
-          <CardContent className="p-4 pt-1">
-            <Button asChild variant="outline" size="xs" className="w-full justify-between">
-              <Link href="/audit">
-                Open <ArrowRight className="h-3 w-3 ml-1" />
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
+          <Card className="border-border hover:bg-muted/30 transition-colors">
+            <CardHeader className="p-4 pb-2">
+              <div className="flex items-center justify-between">
+                <Send className="h-4 w-4 text-muted-foreground" />
+                <Badge variant="outline" className="text-[10px]">Period</Badge>
+              </div>
+              <CardTitle className="text-sm font-bold mt-2">Submit Period</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 pt-1">
+              <Button asChild variant="outline" size="xs" className="w-full justify-between">
+                <Link href="/site/submit">
+                  Open <ArrowRight className="h-3 w-3 ml-1" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <Card className="border-border hover:bg-muted/30 transition-colors">
+            <CardHeader className="p-4 pb-2">
+              <div className="flex items-center justify-between">
+                <Building2 className="h-4 w-4 text-muted-foreground" />
+                <Badge variant="outline" className="text-[10px]">Admin</Badge>
+              </div>
+              <CardTitle className="text-sm font-bold mt-2">Sites &amp; BUs</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 pt-1">
+              <Button asChild variant="outline" size="xs" className="w-full justify-between">
+                <Link href="/admin/sites">
+                  Open <ArrowRight className="h-3 w-3 ml-1" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="border-border hover:bg-muted/30 transition-colors">
+            <CardHeader className="p-4 pb-2">
+              <div className="flex items-center justify-between">
+                <Layers className="h-4 w-4 text-muted-foreground" />
+                <Badge variant="outline" className="text-[10px]">Library</Badge>
+              </div>
+              <CardTitle className="text-sm font-bold mt-2">Emission Factors</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 pt-1">
+              <Button asChild variant="outline" size="xs" className="w-full justify-between">
+                <Link href="/admin/factors">
+                  Open <ArrowRight className="h-3 w-3 ml-1" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="border-border hover:bg-muted/30 transition-colors">
+            <CardHeader className="p-4 pb-2">
+              <div className="flex items-center justify-between">
+                <FileCheck2 className="h-4 w-4 text-muted-foreground" />
+                <Badge variant="outline" className="text-[10px]">Review</Badge>
+              </div>
+              <CardTitle className="text-sm font-bold mt-2">Review Queue</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 pt-1">
+              <Button asChild variant="outline" size="xs" className="w-full justify-between">
+                <Link href="/review">
+                  Open <ArrowRight className="h-3 w-3 ml-1" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="border-border hover:bg-muted/30 transition-colors">
+            <CardHeader className="p-4 pb-2">
+              <div className="flex items-center justify-between">
+                <BarChart3 className="h-4 w-4 text-muted-foreground" />
+                <Badge variant="outline" className="text-[10px]">BRSR</Badge>
+              </div>
+              <CardTitle className="text-sm font-bold mt-2">BRSR Report</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 pt-1">
+              <Button asChild variant="outline" size="xs" className="w-full justify-between">
+                <Link href="/reports/brsr">
+                  Open <ArrowRight className="h-3 w-3 ml-1" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="border-border hover:bg-muted/30 transition-colors">
+            <CardHeader className="p-4 pb-2">
+              <div className="flex items-center justify-between">
+                <FolderLock className="h-4 w-4 text-muted-foreground" />
+                <Badge variant="outline" className="text-[10px]">Control</Badge>
+              </div>
+              <CardTitle className="text-sm font-bold mt-2">Period Lock</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 pt-1">
+              <Button asChild variant="outline" size="xs" className="w-full justify-between">
+                <Link href="/admin/period">
+                  Open <ArrowRight className="h-3 w-3 ml-1" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="border-border hover:bg-muted/30 transition-colors">
+            <CardHeader className="p-4 pb-2">
+              <div className="flex items-center justify-between">
+                <ShieldCheck className="h-4 w-4 text-muted-foreground" />
+                <Badge variant="outline" className="text-[10px]">Audit</Badge>
+              </div>
+              <CardTitle className="text-sm font-bold mt-2">Auditor Console</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 pt-1">
+              <Button asChild variant="outline" size="xs" className="w-full justify-between">
+                <Link href="/audit">
+                  Open <ArrowRight className="h-3 w-3 ml-1" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   );
 }
