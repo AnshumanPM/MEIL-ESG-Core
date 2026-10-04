@@ -115,8 +115,8 @@ export async function createEmissionEntry(data: {
     return insertedEntry;
   });
 
-  revalidatePath("/site");
-  revalidatePath("/site/entries");
+  revalidatePath("/dashboard/site");
+  revalidatePath("/dashboard/site/entries");
   return { success: true, entryId: result.id };
 }
 
@@ -246,8 +246,8 @@ export async function updateDraftEntry(
     });
   });
 
-  revalidatePath("/site");
-  revalidatePath("/site/entries");
+  revalidatePath("/dashboard/site");
+  revalidatePath("/dashboard/site/entries");
   return { success: true };
 }
 
@@ -291,10 +291,10 @@ export async function submitSingleEntryAction(entryId: string) {
     });
   });
 
-  revalidatePath("/site");
-  revalidatePath("/site/entries");
-  revalidatePath("/site/submit");
-  revalidatePath("/review");
+  revalidatePath("/dashboard/site");
+  revalidatePath("/dashboard/site/entries");
+  revalidatePath("/dashboard/site/submit");
+  revalidatePath("/dashboard/review");
   return { success: true };
 }
 
@@ -360,10 +360,10 @@ export async function submitMonthEntries(
     });
   });
 
-  revalidatePath("/site");
-  revalidatePath("/site/entries");
-  revalidatePath("/site/submit");
-  revalidatePath("/review");
+  revalidatePath("/dashboard/site");
+  revalidatePath("/dashboard/site/entries");
+  revalidatePath("/dashboard/site/submit");
+  revalidatePath("/dashboard/review");
   return { success: true, submittedCount: ids.length };
 }
 
@@ -441,10 +441,10 @@ export async function reviewSubmissionAction(
     }
   });
 
-  revalidatePath("/review");
-  revalidatePath("/site");
-  revalidatePath("/site/entries");
-  revalidatePath("/reports/brsr");
+  revalidatePath("/dashboard/review");
+  revalidatePath("/dashboard/site");
+  revalidatePath("/dashboard/site/entries");
+  revalidatePath("/dashboard/reports/brsr");
   return { success: true, count: entryIds.length };
 }
 
@@ -483,8 +483,8 @@ export async function auditVerifyAction(
     });
   });
 
-  revalidatePath("/audit");
-  revalidatePath("/reports/brsr");
+  revalidatePath("/dashboard/audit");
+  revalidatePath("/dashboard/reports/brsr");
   return { success: true };
 }
 
@@ -526,8 +526,8 @@ export async function updateFyConfigAction(
     detail: `Updated FY ${financialYear} config: Turnover ₹${turnoverInrCr} Cr, Assurance ${assuranceDone}`,
   });
 
-  revalidatePath("/admin/period");
-  revalidatePath("/reports/brsr");
+  revalidatePath("/dashboard/admin/period");
+  revalidatePath("/dashboard/reports/brsr");
   return { success: true };
 }
 
@@ -575,10 +575,10 @@ export async function lockFinancialYearAction(financialYear: string) {
     });
   });
 
-  revalidatePath("/admin/period");
-  revalidatePath("/reports/brsr");
-  revalidatePath("/site");
-  revalidatePath("/site/entries");
+  revalidatePath("/dashboard/admin/period");
+  revalidatePath("/dashboard/reports/brsr");
+  revalidatePath("/dashboard/site");
+  revalidatePath("/dashboard/site/entries");
   return { success: true };
 }
 
@@ -621,7 +621,7 @@ export async function createEmissionFactorAction(data: {
     detail: `Added emission factor ${data.category} (${data.kgCo2ePerUnit} kg CO2e/${data.unit}) authority: ${data.authority}`,
   });
 
-  revalidatePath("/admin/factors");
+  revalidatePath("/dashboard/admin/factors");
   return { success: true, id: inserted.id };
 }
 
@@ -656,7 +656,7 @@ export async function createSiteAction(data: {
     detail: `Registered site ${data.id} (${data.name}) under BU ${data.buId}`,
   });
 
-  revalidatePath("/admin/sites");
+  revalidatePath("/dashboard/admin/sites");
   return { success: true };
 }
 
@@ -698,7 +698,7 @@ export async function updateEmissionFactorAction(
     detail: `Updated factor ${id}: ${data.kgCo2ePerUnit} kg CO2e/${data.unit}`,
   });
 
-  revalidatePath("/admin/factors");
+  revalidatePath("/dashboard/admin/factors");
   return { success: true };
 }
 
@@ -736,7 +736,7 @@ export async function updateSiteAction(
     detail: `Updated site ${id} (${data.name}), BU: ${data.buId}, Active: ${data.active}`,
   });
 
-  revalidatePath("/admin/sites");
+  revalidatePath("/dashboard/admin/sites");
   return { success: true };
 }
 

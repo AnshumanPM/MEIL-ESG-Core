@@ -140,7 +140,7 @@ export default async function SiteDashboardPage() {
 
         <div className="flex items-center gap-2">
           <Button asChild size="sm">
-            <Link href="/site/entries/new">
+            <Link href="/dashboard/site/entries/new">
               <FilePlus2 className="h-4 w-4 mr-1.5" />
               New Entry
             </Link>
@@ -148,7 +148,7 @@ export default async function SiteDashboardPage() {
 
           {statusMap.DRAFT > 0 && (
             <Button asChild variant="outline" size="sm">
-              <Link href="/site/submit">
+              <Link href="/dashboard/site/submit">
                 <Send className="h-4 w-4 mr-1.5" />
                 Submit {statusMap.DRAFT} Draft(s)
               </Link>
@@ -156,7 +156,7 @@ export default async function SiteDashboardPage() {
           )}
 
           <Button asChild variant="ghost" size="sm">
-            <Link href="/site/entries">
+            <Link href="/dashboard/site/entries">
               <Layers className="h-4 w-4 mr-1.5" />
               Ledger
             </Link>
@@ -177,7 +177,7 @@ export default async function SiteDashboardPage() {
                   <span className="font-medium">{re.sourceName}</span> ({re.quantity} {re.unit}) &bull; {re.rejectReason || "Correction needed"}
                 </div>
                 <Button asChild size="xs" variant="outline">
-                  <Link href={`/site/entries?edit=${re.id}`}>Edit</Link>
+                  <Link href={`/dashboard/site/entries?edit=${re.id}`}>Edit</Link>
                 </Button>
               </div>
             ))}
@@ -253,7 +253,7 @@ export default async function SiteDashboardPage() {
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-bold">Recent Entries</h2>
           <Button asChild variant="link" size="xs">
-            <Link href="/site/entries">View All &rarr;</Link>
+            <Link href="/dashboard/site/entries">View All &rarr;</Link>
           </Button>
         </div>
 
@@ -315,7 +315,7 @@ export default async function SiteDashboardPage() {
                     </TableCell>
                     <TableCell className="text-right">
                       <Button asChild size="xs" variant="ghost">
-                        <Link href="/site/entries">View</Link>
+                        <Link href="/dashboard/site/entries">View</Link>
                       </Button>
                     </TableCell>
                   </TableRow>

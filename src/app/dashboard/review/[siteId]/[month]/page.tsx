@@ -122,7 +122,7 @@ export default async function SubmissionReviewPage({
         <div>
           <div className="flex items-center gap-2 mb-1">
             <Button asChild variant="ghost" size="xs" className="h-6 px-1.5 text-xs">
-              <Link href="/review">
+              <Link href="/dashboard/review">
                 <ArrowLeft className="h-3.5 w-3.5 mr-1" />
                 Queue
               </Link>

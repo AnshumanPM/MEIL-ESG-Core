@@ -102,7 +102,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton size="lg" asChild>
-                  <Link href="/">
+                  <Link href="/dashboard">
                     <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-primary font-bold text-xs text-primary-foreground">
                       M
                     </div>
@@ -129,24 +129,24 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 <SidebarGroupContent>
                   <SidebarMenu>
                     <SidebarMenuItem>
-                      <SidebarMenuButton asChild isActive={pathname === "/site"}>
-                        <Link href="/site">
+                      <SidebarMenuButton asChild isActive={pathname === "/dashboard/site"}>
+                        <Link href="/dashboard/site">
                           <LayoutDashboard className="h-4 w-4 shrink-0" />
                           <span>Dashboard</span>
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
-                      <SidebarMenuButton asChild isActive={pathname === "/site/entries/new"}>
-                        <Link href="/site/entries/new">
+                      <SidebarMenuButton asChild isActive={pathname === "/dashboard/site/entries/new"}>
+                        <Link href="/dashboard/site/entries/new">
                           <FilePlus2 className="h-4 w-4 shrink-0" />
                           <span>Log Entry</span>
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
-                      <SidebarMenuButton asChild isActive={pathname === "/site/entries"}>
-                        <Link href="/site/entries">
+                      <SidebarMenuButton asChild isActive={pathname === "/dashboard/site/entries"}>
+                        <Link href="/dashboard/site/entries">
                           <Layers className="h-4 w-4 shrink-0" />
                           <span>Ledger</span>
                         </Link>
@@ -154,8 +154,8 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                     </SidebarMenuItem>
                     {isSiteManager && (
                       <SidebarMenuItem>
-                        <SidebarMenuButton asChild isActive={pathname === "/site/submit"}>
-                          <Link href="/site/submit">
+                        <SidebarMenuButton asChild isActive={pathname === "/dashboard/site/submit"}>
+                          <Link href="/dashboard/site/submit">
                             <Send className="h-4 w-4 shrink-0" />
                             <span>Submit Month</span>
                           </Link>
@@ -175,8 +175,8 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 <SidebarGroupContent>
                   <SidebarMenu>
                     <SidebarMenuItem>
-                      <SidebarMenuButton asChild isActive={pathname.startsWith("/review")}>
-                        <Link href="/review">
+                      <SidebarMenuButton asChild isActive={pathname.startsWith("/dashboard/review")}>
+                        <Link href="/dashboard/review">
                           <FileCheck2 className="h-4 w-4 shrink-0" />
                           <span>Review Queue</span>
                         </Link>
@@ -195,24 +195,24 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 <SidebarGroupContent>
                   <SidebarMenu>
                     <SidebarMenuItem>
-                      <SidebarMenuButton asChild isActive={pathname === "/admin/factors"}>
-                        <Link href="/admin/factors">
+                      <SidebarMenuButton asChild isActive={pathname === "/dashboard/admin/factors"}>
+                        <Link href="/dashboard/admin/factors">
                           <Layers className="h-4 w-4 shrink-0" />
                           <span>Factors Library</span>
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
-                      <SidebarMenuButton asChild isActive={pathname === "/admin/sites"}>
-                        <Link href="/admin/sites">
+                      <SidebarMenuButton asChild isActive={pathname === "/dashboard/admin/sites"}>
+                        <Link href="/dashboard/admin/sites">
                           <Building2 className="h-4 w-4 shrink-0" />
                           <span>Sites &amp; BUs</span>
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
-                      <SidebarMenuButton asChild isActive={pathname === "/admin/period"}>
-                        <Link href="/admin/period">
+                      <SidebarMenuButton asChild isActive={pathname === "/dashboard/admin/period"}>
+                        <Link href="/dashboard/admin/period">
                           <FolderLock className="h-4 w-4 shrink-0" />
                           <span>Period Lock</span>
                         </Link>
@@ -231,8 +231,8 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 <SidebarGroupContent>
                   <SidebarMenu>
                     <SidebarMenuItem>
-                      <SidebarMenuButton asChild isActive={pathname === "/reports/brsr"}>
-                        <Link href="/reports/brsr">
+                      <SidebarMenuButton asChild isActive={pathname === "/dashboard/reports/brsr"}>
+                        <Link href="/dashboard/reports/brsr">
                           <BarChart3 className="h-4 w-4 shrink-0" />
                           <span>BRSR Report</span>
                         </Link>
@@ -240,8 +240,8 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                     </SidebarMenuItem>
                     {(isAuditor || isCorporateAdmin) && (
                       <SidebarMenuItem>
-                        <SidebarMenuButton asChild isActive={pathname === "/audit"}>
-                          <Link href="/audit">
+                        <SidebarMenuButton asChild isActive={pathname === "/dashboard/audit"}>
+                          <Link href="/dashboard/audit">
                             <ShieldCheck className="h-4 w-4 shrink-0" />
                             <span>Auditor Console</span>
                           </Link>

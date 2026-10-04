@@ -179,7 +179,7 @@ export default async function ReviewQueuePage() {
                   </TableCell>
                   <TableCell className="text-right">
                     <Button asChild size="xs" variant="outline">
-                      <Link href={`/review/${sub.siteId}/${sub.financialYear}`}>
+                      <Link href={`/dashboard/review/${sub.siteId}/${sub.financialYear}`}>
                         Review <ArrowRight className="h-3 w-3 ml-1" />
                       </Link>
                     </Button>

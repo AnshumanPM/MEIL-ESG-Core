@@ -106,13 +106,13 @@ export default async function SiteEntriesPage() {
 
         <div className="flex items-center gap-2.5">
           <Button asChild>
-            <Link href="/site/entries/new">
+            <Link href="/dashboard/site/entries/new">
               <FilePlus2 className="h-4 w-4 mr-1.5" />
               Log Entry
             </Link>
           </Button>
           <Button asChild variant="outline">
-            <Link href="/site/submit">
+            <Link href="/dashboard/site/submit">
               <Send className="h-4 w-4 mr-1.5" />
               Submit Month
             </Link>

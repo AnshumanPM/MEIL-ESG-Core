@@ -28,7 +28,7 @@ export function MonthSubmitClient({
         const res = await submitMonthEntries(financialYear);
         setSuccess(`Submitted ${res.submittedCount} entries for review.`);
         setTimeout(() => {
-          router.push("/site");
+          router.push("/dashboard/site");
         }, 1000);
       } catch (err: any) {
         setError(err.message || "Failed to submit reporting period");

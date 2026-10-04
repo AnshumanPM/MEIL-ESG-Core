@@ -165,7 +165,7 @@ export function EntryForm({
 
           setSuccessMessage("Entry saved successfully.");
           setTimeout(() => {
-            router.push("/site/entries");
+            router.push("/dashboard/site/entries");
           }, 1000);
         } catch (err: any) {
           setErrorMessage(err.message || "Failed to create emission entry");

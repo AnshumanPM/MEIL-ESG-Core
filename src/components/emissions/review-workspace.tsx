@@ -116,7 +116,7 @@ export function ReviewWorkspace({
         await reviewSubmissionAction(ids, "APPROVE");
         setSuccess("Submission approved.");
         setTimeout(() => {
-          router.push("/review");
+          router.push("/dashboard/review");
         }, 1000);
       } catch (err: any) {
         setError(err.message || "Approval failed");
@@ -140,7 +140,7 @@ export function ReviewWorkspace({
         setRejectDialogOpen(false);
         setSuccess("Submission returned for correction.");
         setTimeout(() => {
-          router.push("/review");
+          router.push("/dashboard/review");
         }, 1000);
       } catch (err: any) {
         setError(err.message || "Rejection failed");

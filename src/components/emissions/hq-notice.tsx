@@ -43,13 +43,13 @@ export function HqNotice({
         <OrganizationSwitcher hidePersonal />
         <div className="flex gap-2">
           <Button asChild size="xs" variant="outline">
-            <Link href="/review">Review</Link>
+            <Link href="/dashboard/review">Review</Link>
           </Button>
           <Button asChild size="xs" variant="outline">
-            <Link href="/admin/sites">Sites</Link>
+            <Link href="/dashboard/admin/sites">Sites</Link>
           </Button>
           <Button asChild size="xs">
-            <Link href="/reports/brsr">BRSR</Link>
+            <Link href="/dashboard/reports/brsr">BRSR</Link>
           </Button>
         </div>
       </CardFooter>
