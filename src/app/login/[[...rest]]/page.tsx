@@ -16,6 +16,7 @@ export default function LoginPage() {
       </div>
 
       <SignIn
+        path="/login"
         fallbackRedirectUrl="/dashboard"
         signUpUrl="/sign-up"
         appearance={{
