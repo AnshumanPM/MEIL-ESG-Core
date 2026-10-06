@@ -563,6 +563,7 @@ export function EntriesTable({
                   <Input
                     id="editDate"
                     type="date"
+                    max={new Date().toISOString().split("T")[0]}
                     value={editDate}
                     onChange={(e) => setEditDate(e.target.value)}
                   />

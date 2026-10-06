@@ -268,6 +268,7 @@ export function EntryForm({
                     id="entryDate"
                     type="date"
                     required
+                    max={new Date().toISOString().split("T")[0]}
                     value={entryDate}
                     onChange={(e) => setEntryDate(e.target.value)}
                   />
@@ -376,6 +377,7 @@ export function EntryForm({
                   <Input
                     id="invoiceDate"
                     type="date"
+                    max={new Date().toISOString().split("T")[0]}
                     value={invoiceDate}
                     onChange={(e) => setInvoiceDate(e.target.value)}
                   />
