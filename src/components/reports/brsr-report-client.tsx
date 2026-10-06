@@ -145,7 +145,7 @@ export function BrsrReportClient({
   };
 
   return (
-    <div className="max-w-6xl space-y-4">
+    <div className="w-full space-y-4">
       <div className="bg-card border-border flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3 print:hidden">
         <div className="flex items-center gap-2">
           <Badge variant="outline" className="text-xs">

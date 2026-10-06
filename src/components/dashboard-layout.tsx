@@ -183,29 +183,6 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               </SidebarGroup>
             )}
 
-            {isBuReviewer && (
-              <SidebarGroup>
-                <SidebarGroupLabel className="text-muted-foreground text-[10px] tracking-wider uppercase">
-                  Verification
-                </SidebarGroupLabel>
-                <SidebarGroupContent>
-                  <SidebarMenu>
-                    <SidebarMenuItem>
-                      <SidebarMenuButton
-                        asChild
-                        isActive={pathname.startsWith("/dashboard/review")}
-                      >
-                        <Link href="/dashboard/review">
-                          <FileCheck2 className="h-4 w-4 shrink-0" />
-                          <span>Review Queue</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  </SidebarMenu>
-                </SidebarGroupContent>
-              </SidebarGroup>
-            )}
-
             {isCorporateAdmin && (
               <SidebarGroup>
                 <SidebarGroupLabel className="text-muted-foreground text-[10px] tracking-wider uppercase">
@@ -243,6 +220,29 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                         <Link href="/dashboard/admin/period">
                           <FolderLock className="h-4 w-4 shrink-0" />
                           <span>Period Lock</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </SidebarGroup>
+            )}
+
+            {isBuReviewer && (
+              <SidebarGroup>
+                <SidebarGroupLabel className="text-muted-foreground text-[10px] tracking-wider uppercase">
+                  Verification
+                </SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={pathname.startsWith("/dashboard/review")}
+                      >
+                        <Link href="/dashboard/review">
+                          <FileCheck2 className="h-4 w-4 shrink-0" />
+                          <span>Review Queue</span>
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>

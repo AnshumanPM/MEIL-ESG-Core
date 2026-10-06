@@ -181,7 +181,7 @@ export function EntryForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-4xl space-y-4">
+    <form onSubmit={handleSubmit} className="w-full space-y-4">
       {errorMessage && (
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />

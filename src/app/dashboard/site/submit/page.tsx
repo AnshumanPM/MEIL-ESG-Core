@@ -68,7 +68,7 @@ export default async function SiteSubmitPage() {
     .reduce((acc, curr) => acc + parseFloat(curr.tco2e), 0);
 
   return (
-    <div className="max-w-6xl space-y-6">
+    <div className="w-full space-y-6">
       <div className="border-border border-b pb-4">
         <div className="mb-1 flex items-center gap-2">
           <Badge variant="outline" className="font-mono text-xs">

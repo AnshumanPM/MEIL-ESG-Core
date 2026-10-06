@@ -154,7 +154,7 @@ export function AuditorConsole({ entries }: { entries: AuditEntryItem[] }) {
   };
 
   return (
-    <div className="max-w-6xl space-y-4">
+    <div className="w-full space-y-4">
       {actionError && (
         <Alert variant="destructive">
           <AlertTriangle className="h-4 w-4" />

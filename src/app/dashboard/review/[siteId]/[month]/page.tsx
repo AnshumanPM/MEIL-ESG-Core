@@ -120,7 +120,7 @@ export default async function SubmissionReviewPage({
   }));
 
   return (
-    <div className="container mx-auto max-w-7xl space-y-6 px-4 py-8 sm:px-6">
+    <div className="w-full space-y-6">
       <div className="flex flex-col justify-between gap-4 border-b pb-5 sm:flex-row sm:items-center">
         <div>
           <div className="mb-1 flex items-center gap-2">

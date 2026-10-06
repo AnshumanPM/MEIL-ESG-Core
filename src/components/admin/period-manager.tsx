@@ -93,7 +93,7 @@ export function PeriodManager({ configs }: { configs: FyConfigItem[] }) {
   };
 
   return (
-    <div className="max-w-4xl space-y-4">
+    <div className="w-full space-y-4">
       {error && (
         <Alert variant="destructive">
           <AlertTitle className="text-xs font-semibold">Error</AlertTitle>

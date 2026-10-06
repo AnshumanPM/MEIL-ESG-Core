@@ -112,7 +112,7 @@ export default async function SiteDashboardPage() {
     ctx.orgRole.includes("member");
 
   return (
-    <div className="max-w-6xl space-y-6">
+    <div className="w-full space-y-6">
       <div className="border-border flex flex-col justify-between gap-3 border-b pb-4 sm:flex-row sm:items-center">
         <div>
           <div className="mb-1 flex items-center gap-2">

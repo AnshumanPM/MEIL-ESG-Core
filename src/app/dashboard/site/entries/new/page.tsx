@@ -27,7 +27,7 @@ export default async function NewEntryPage() {
     .from(emissionFactors);
 
   return (
-    <div className="max-w-5xl space-y-4">
+    <div className="w-full space-y-4">
       <div className="border-border border-b pb-3">
         <h1 className="text-xl font-bold tracking-tight">Log Emission Entry</h1>
         <p className="text-muted-foreground mt-0.5 text-xs">

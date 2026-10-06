@@ -81,7 +81,7 @@ export default async function SiteEntriesPage() {
   const isManager = true;
 
   return (
-    <div className="max-w-7xl space-y-4">
+    <div className="w-full space-y-4">
       <div className="border-border flex flex-col justify-between gap-3 border-b pb-3 sm:flex-row sm:items-center">
         <div>
           <div className="mb-1 flex items-center gap-2">

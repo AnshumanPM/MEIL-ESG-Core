@@ -21,7 +21,7 @@ export default async function AdminFactorsPage() {
     .from(emissionFactors);
 
   return (
-    <div className="max-w-7xl space-y-4">
+    <div className="w-full space-y-4">
       <div className="border-border border-b pb-3">
         <h1 className="text-xl font-bold tracking-tight">Emission Factors</h1>
         <p className="text-muted-foreground mt-0.5 text-xs">

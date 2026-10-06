@@ -185,7 +185,7 @@ export default async function BrsrReportPage() {
   }));
 
   return (
-    <div className="max-w-7xl space-y-4">
+    <div className="w-full space-y-4">
       <div className="border-border border-b pb-3 print:hidden">
         <h1 className="text-xl font-bold tracking-tight">
           BRSR Principle 6 Disclosures
