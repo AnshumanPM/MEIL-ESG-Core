@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "MEIL GHG Emissions Platform | SEBI BRSR Principle 6",
+  title: "MEIL ESG Core",
   description:
     "Enterprise Greenhouse Gas Accounting and Evidence Verification Platform for Megha Engineering & Infrastructures Ltd.",
 };

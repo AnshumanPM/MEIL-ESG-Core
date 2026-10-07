@@ -112,10 +112,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                     </div>
                     <div className="flex flex-col gap-0.5 leading-none">
                       <span className="text-foreground text-xs font-semibold tracking-tight">
-                        MEIL ESG
-                      </span>
-                      <span className="text-muted-foreground text-[10px]">
-                        BRSR Principle 6
+                        MEIL ESG Core
                       </span>
                     </div>
                   </Link>

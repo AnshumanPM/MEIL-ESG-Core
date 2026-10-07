@@ -8,7 +8,7 @@ export default function LoginPage() {
           M
         </div>
         <h1 className="text-foreground text-xl font-bold tracking-tight">
-          MEIL ESG Platform
+          MEIL ESG Core
         </h1>
         <p className="text-muted-foreground mt-1 text-xs">
           BRSR Principle 6 Greenhouse Gas Accounting
