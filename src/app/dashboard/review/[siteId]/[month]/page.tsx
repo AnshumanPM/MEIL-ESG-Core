@@ -2,7 +2,8 @@ import Link from "next/link";
 import { getAuthContext } from "@/lib/auth";
 import { db } from "@/db";
 import { emissionEntries, sites, businessUnits, documents } from "@/db/schema";
-import { and, eq, inArray } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
+import { clerkClient } from "@clerk/nextjs/server";
 import { ReviewWorkspace } from "@/components/emissions/review-workspace";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -79,6 +80,7 @@ export default async function SubmissionReviewPage({
       factorValue: emissionEntries.factorValue,
       tco2e: emissionEntries.tco2e,
       status: emissionEntries.status,
+      createdBy: emissionEntries.createdBy,
       docId: documents.id,
       docOriginalName: documents.originalName,
       docMimeType: documents.mimeType,
@@ -96,6 +98,28 @@ export default async function SubmissionReviewPage({
       ),
     );
 
+  const submitterIds = Array.from(new Set(rawEntries.map((r) => r.createdBy)));
+  const userNameMap = new Map<string, string>();
+  if (submitterIds.length > 0) {
+    try {
+      const clerk = await clerkClient();
+      await Promise.all(
+        submitterIds.map(async (uid) => {
+          try {
+            const u = await clerk.users.getUser(uid);
+            const name =
+              [u.firstName, u.lastName].filter(Boolean).join(" ").trim() ||
+              u.emailAddresses?.[0]?.emailAddress ||
+              uid;
+            userNameMap.set(uid, name);
+          } catch {
+            userNameMap.set(uid, uid);
+          }
+        }),
+      );
+    } catch {}
+  }
+
   const entries = rawEntries.map((r) => ({
     id: r.id,
     entryDate: r.entryDate,
@@ -107,6 +131,7 @@ export default async function SubmissionReviewPage({
     factorValue: r.factorValue,
     tco2e: r.tco2e,
     status: r.status,
+    submitterName: userNameMap.get(r.createdBy) || r.createdBy,
     document: r.docId
       ? {
           id: r.docId,

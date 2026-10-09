@@ -4,6 +4,7 @@ import { HqNotice } from "@/components/emissions/hq-notice";
 import { db } from "@/db";
 import { emissionEntries, businessUnits } from "@/db/schema";
 import { eq, and, sql, desc } from "drizzle-orm";
+import { clerkClient } from "@clerk/nextjs/server";
 import {
   Card,
   CardContent,
@@ -110,6 +111,30 @@ export default async function SiteDashboardPage() {
     ctx.orgRole.includes("site") ||
     ctx.orgRole.includes("admin") ||
     ctx.orgRole.includes("member");
+
+  const submitterIds = Array.from(
+    new Set(recentEntries.map((e) => e.createdBy)),
+  );
+  const submitterNameMap = new Map<string, string>();
+  if (submitterIds.length > 0) {
+    try {
+      const clerk = await clerkClient();
+      await Promise.all(
+        submitterIds.map(async (uid) => {
+          try {
+            const u = await clerk.users.getUser(uid);
+            const name =
+              [u.firstName, u.lastName].filter(Boolean).join(" ").trim() ||
+              u.emailAddresses?.[0]?.emailAddress ||
+              uid;
+            submitterNameMap.set(uid, name);
+          } catch {
+            submitterNameMap.set(uid, uid);
+          }
+        }),
+      );
+    } catch {}
+  }
 
   return (
     <div className="w-full space-y-6">
@@ -315,8 +340,15 @@ export default async function SiteDashboardPage() {
                             : "Scope 3"}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-xs font-medium">
-                      {row.sourceName}
+                    <TableCell>
+                      <div className="text-foreground text-xs font-medium">
+                        {row.sourceName}
+                      </div>
+                      {submitterNameMap.get(row.createdBy) && (
+                        <div className="text-muted-foreground text-[10px]">
+                          by {submitterNameMap.get(row.createdBy)}
+                        </div>
+                      )}
                     </TableCell>
                     <TableCell className="text-xs">
                       {row.quantity} {row.unit}

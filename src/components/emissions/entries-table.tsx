@@ -60,6 +60,8 @@ interface EntryItem {
   auditStatus: "NONE" | "VERIFIED" | "FLAGGED";
   auditComment?: string | null;
   createdBy: string;
+  submitterName?: string | null;
+  reviewedBy?: string | null;
   document?: {
     id: string;
     originalName: string;
@@ -342,6 +344,8 @@ export function EntriesTable({
               <TableHead>Quantity</TableHead>
               <TableHead>tCO₂e</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Submitted By</TableHead>
+              <TableHead>Reviewed By</TableHead>
               <TableHead>Proof</TableHead>
               <TableHead>Audit</TableHead>
               <TableHead className="text-right">Action</TableHead>
@@ -351,7 +355,7 @@ export function EntriesTable({
             {filtered.length === 0 ? (
               <TableRow>
                 <TableCell
-                  colSpan={9}
+                  colSpan={11}
                   className="text-muted-foreground h-24 text-center text-xs"
                 >
                   No emission records found.
@@ -395,6 +399,28 @@ export function EntriesTable({
                       >
                         {item.status}
                       </Badge>
+                    </TableCell>
+                    <TableCell>
+                      {item.submitterName ? (
+                        <span className="text-foreground text-[11px] font-medium">
+                          {item.submitterName}
+                        </span>
+                      ) : (
+                        <span className="text-muted-foreground text-[10px]">
+                          —
+                        </span>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {item.reviewedBy ? (
+                        <span className="text-foreground text-[11px]">
+                          {item.reviewedBy}
+                        </span>
+                      ) : (
+                        <span className="text-muted-foreground text-[10px]">
+                          —
+                        </span>
+                      )}
                     </TableCell>
                     <TableCell>
                       {item.document ? (

@@ -55,6 +55,8 @@ interface AuditEntryItem {
   status: string;
   auditStatus: "NONE" | "VERIFIED" | "FLAGGED";
   auditComment?: string | null;
+  submitterName?: string | null;
+  reviewedBy?: string | null;
   document?: {
     id: string;
     originalName: string;
@@ -240,6 +242,8 @@ export function AuditorConsole({ entries }: { entries: AuditEntryItem[] }) {
               <TableHead>Quantity</TableHead>
               <TableHead>Factor</TableHead>
               <TableHead>tCO₂e</TableHead>
+              <TableHead>Submitted By</TableHead>
+              <TableHead>Reviewed By</TableHead>
               <TableHead>Evidence</TableHead>
               <TableHead>Audit Status</TableHead>
               <TableHead className="text-right">Action</TableHead>
@@ -249,7 +253,7 @@ export function AuditorConsole({ entries }: { entries: AuditEntryItem[] }) {
             {filtered.length === 0 ? (
               <TableRow>
                 <TableCell
-                  colSpan={8}
+                  colSpan={10}
                   className="text-muted-foreground h-20 text-center text-xs"
                 >
                   No matching entries found.
@@ -282,6 +286,28 @@ export function AuditorConsole({ entries }: { entries: AuditEntryItem[] }) {
                   </TableCell>
                   <TableCell className="text-xs font-semibold">
                     {item.tco2e}
+                  </TableCell>
+                  <TableCell>
+                    {item.submitterName ? (
+                      <span className="text-foreground text-[11px] font-medium">
+                        {item.submitterName}
+                      </span>
+                    ) : (
+                      <span className="text-muted-foreground text-[10px]">
+                        —
+                      </span>
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    {item.reviewedBy ? (
+                      <span className="text-foreground text-[11px]">
+                        {item.reviewedBy}
+                      </span>
+                    ) : (
+                      <span className="text-muted-foreground text-[10px]">
+                        —
+                      </span>
+                    )}
                   </TableCell>
                   <TableCell>
                     {item.document ? (

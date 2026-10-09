@@ -44,6 +44,7 @@ interface ReviewEntry {
   factorValue: string;
   tco2e: string;
   status: string;
+  submitterName?: string | null;
   document: {
     id: string;
     originalName: string;
@@ -208,6 +209,7 @@ export function ReviewWorkspace({
                   <TableHead>Source</TableHead>
                   <TableHead>Quantity</TableHead>
                   <TableHead>tCO₂e</TableHead>
+                  <TableHead>Submitted By</TableHead>
                   <TableHead className="text-right">Evidence</TableHead>
                 </TableRow>
               </TableHeader>
@@ -240,6 +242,17 @@ export function ReviewWorkspace({
                     </TableCell>
                     <TableCell className="text-xs font-semibold">
                       {item.tco2e}
+                    </TableCell>
+                    <TableCell>
+                      {item.submitterName ? (
+                        <span className="text-foreground text-[11px] font-medium">
+                          {item.submitterName}
+                        </span>
+                      ) : (
+                        <span className="text-muted-foreground text-[10px]">
+                          —
+                        </span>
+                      )}
                     </TableCell>
                     <TableCell className="text-right">
                       {item.document ? (

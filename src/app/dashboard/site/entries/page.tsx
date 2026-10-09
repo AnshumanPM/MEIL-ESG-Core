@@ -2,8 +2,9 @@ import Link from "next/link";
 import { getAuthContext } from "@/lib/auth";
 import { HqNotice } from "@/components/emissions/hq-notice";
 import { db } from "@/db";
-import { emissionEntries, documents } from "@/db/schema";
-import { eq, desc } from "drizzle-orm";
+import { emissionEntries, documents, auditLog } from "@/db/schema";
+import { eq, desc, inArray, and, or } from "drizzle-orm";
+import { clerkClient } from "@clerk/nextjs/server";
 import { EntriesTable } from "@/components/emissions/entries-table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -48,6 +49,58 @@ export default async function SiteEntriesPage() {
     .where(eq(emissionEntries.siteId, site.id))
     .orderBy(desc(emissionEntries.entryDate), desc(emissionEntries.createdAt));
 
+  const entryIds = rawEntries.map((r) => r.id);
+  const reviewLogs =
+    entryIds.length > 0
+      ? await db
+          .select({
+            entryId: auditLog.entryId,
+            actorClerkId: auditLog.actorClerkId,
+            action: auditLog.action,
+            at: auditLog.at,
+          })
+          .from(auditLog)
+          .where(
+            and(
+              inArray(auditLog.entryId, entryIds),
+              or(eq(auditLog.action, "APPROVE"), eq(auditLog.action, "REJECT")),
+            ),
+          )
+          .orderBy(desc(auditLog.at))
+      : [];
+
+  const reviewerByEntry = new Map<string, string>();
+  for (const log of reviewLogs) {
+    if (log.entryId && !reviewerByEntry.has(log.entryId)) {
+      reviewerByEntry.set(log.entryId, log.actorClerkId);
+    }
+  }
+
+  const submitterIds = Array.from(new Set(rawEntries.map((r) => r.createdBy)));
+  const reviewerIds = Array.from(new Set(reviewerByEntry.values()));
+  const allUserIds = Array.from(new Set([...submitterIds, ...reviewerIds]));
+
+  const userNameMap = new Map<string, string>();
+  if (allUserIds.length > 0) {
+    try {
+      const clerk = await clerkClient();
+      await Promise.all(
+        allUserIds.map(async (uid) => {
+          try {
+            const u = await clerk.users.getUser(uid);
+            const name =
+              [u.firstName, u.lastName].filter(Boolean).join(" ").trim() ||
+              u.emailAddresses?.[0]?.emailAddress ||
+              uid;
+            userNameMap.set(uid, name);
+          } catch {
+            userNameMap.set(uid, uid);
+          }
+        }),
+      );
+    } catch {}
+  }
+
   const entries = rawEntries.map((r) => ({
     id: r.id,
     siteId: site.id,
@@ -66,6 +119,11 @@ export default async function SiteEntriesPage() {
     auditStatus: r.auditStatus,
     auditComment: r.auditComment,
     createdBy: r.createdBy,
+    submitterName: userNameMap.get(r.createdBy) || r.createdBy,
+    reviewedBy: reviewerByEntry.has(r.id)
+      ? userNameMap.get(reviewerByEntry.get(r.id)!) ||
+        reviewerByEntry.get(r.id)!
+      : null,
     document: r.docId
       ? {
           id: r.docId,
