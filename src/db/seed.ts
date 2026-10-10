@@ -1,22 +1,99 @@
 import "dotenv/config";
 import { db } from "./index";
-import { businessUnits, sites, emissionFactors, fyConfig } from "./schema";
+import {
+  groups,
+  companies,
+  businessUnits,
+  sites,
+  emissionFactors,
+  fyConfig,
+} from "./schema";
 import { eq } from "drizzle-orm";
 
 async function seed() {
+  const groupData = [{ id: "GRP-MEIL", name: "MEIL Group" }];
+
+  for (const g of groupData) {
+    await db
+      .insert(groups)
+      .values(g)
+      .onConflictDoUpdate({ target: groups.id, set: { name: g.name } });
+  }
+
+  const companyData = [
+    {
+      id: "CO-INFRA",
+      name: "Megha Engineering & Infrastructures Ltd",
+      groupId: "GRP-MEIL",
+    },
+    {
+      id: "CO-POWER",
+      name: "MEIL Power & Transmission Ltd",
+      groupId: "GRP-MEIL",
+    },
+    {
+      id: "CO-HYDRO",
+      name: "MEIL Hydrocarbon & Energy Ltd",
+      groupId: "GRP-MEIL",
+    },
+    {
+      id: "CO-MEGHAGAS",
+      name: "MEIL Megha Gas",
+      groupId: "GRP-MEIL",
+    },
+  ];
+
+  for (const c of companyData) {
+    await db
+      .insert(companies)
+      .values(c)
+      .onConflictDoUpdate({
+        target: companies.id,
+        set: { name: c.name, groupId: c.groupId },
+      });
+  }
+
   const buData = [
-    { id: "BU-WATER", name: "Water & Waste Water Infrastructure" },
-    { id: "BU-POWER", name: "Power Transmission & Distribution" },
-    { id: "BU-HYDRO", name: "Hydrocarbon & Irrigation" },
-    { id: "BU-TRANSPORT", name: "Roads, Bridges & Urban Rail" },
-    { id: "BU-BUILDINGS", name: "Industrial & Commercial Buildings" },
+    {
+      id: "BU-WATER",
+      name: "Water & Waste Water Infrastructure",
+      companyId: "CO-INFRA",
+    },
+    {
+      id: "BU-POWER",
+      name: "Power Transmission & Distribution",
+      companyId: "CO-POWER",
+    },
+    {
+      id: "BU-HYDRO",
+      name: "Hydrocarbon & Irrigation",
+      companyId: "CO-HYDRO",
+    },
+    {
+      id: "BU-TRANSPORT",
+      name: "Roads, Bridges & Urban Rail",
+      companyId: "CO-INFRA",
+    },
+    {
+      id: "BU-BUILDINGS",
+      name: "Industrial & Commercial Buildings",
+      companyId: "CO-INFRA",
+    },
+    {
+      id: "BU-GAS",
+      name: "City Gas Distribution (CGD)",
+      companyId: "CO-MEGHAGAS",
+    },
   ];
 
   for (const bu of buData) {
     await db
       .insert(businessUnits)
       .values(bu)
-      .onConflictDoUpdate({ target: businessUnits.id, set: { name: bu.name } });
+      .onConflictDoUpdate({
+        target: businessUnits.id,
+        set: { name: bu.name, companyId: bu.companyId },
+      });
   }
 
   const demoSites = [

@@ -29,9 +29,25 @@ export const auditEnum = pgEnum("audit_status", [
   "FLAGGED",
 ]);
 
+export const groups = pgTable("groups", {
+  id: varchar("id", { length: 40 }).primaryKey(),
+  name: varchar("name", { length: 150 }).notNull(),
+});
+
+export const companies = pgTable("companies", {
+  id: varchar("id", { length: 40 }).primaryKey(),
+  name: varchar("name", { length: 150 }).notNull(),
+  groupId: varchar("group_id", { length: 40 })
+    .notNull()
+    .references(() => groups.id),
+});
+
 export const businessUnits = pgTable("business_units", {
   id: varchar("id", { length: 40 }).primaryKey(),
   name: varchar("name", { length: 150 }).notNull(),
+  companyId: varchar("company_id", { length: 40 }).references(
+    () => companies.id,
+  ),
 });
 
 export const sites = pgTable("sites", {

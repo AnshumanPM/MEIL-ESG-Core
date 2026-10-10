@@ -38,6 +38,8 @@ interface SiteItem {
   name: string;
   buId: string;
   buName: string;
+  companyName?: string | null;
+  groupName?: string | null;
   stateCode: string;
   active: boolean;
 }
@@ -177,9 +179,18 @@ export function SitesManager({
                 </TableCell>
                 <TableCell className="text-xs font-medium">{s.name}</TableCell>
                 <TableCell>
-                  <Badge variant="outline" className="text-[10px]">
-                    {s.buId}
-                  </Badge>
+                  <div className="flex flex-col gap-0.5">
+                    <span className="text-xs font-medium">{s.buName}</span>
+                    <div className="text-muted-foreground flex items-center gap-1 text-[10px]">
+                      <Badge
+                        variant="outline"
+                        className="h-4 px-1 py-0 text-[9px]"
+                      >
+                        {s.buId}
+                      </Badge>
+                      {s.companyName && <span>&bull; {s.companyName}</span>}
+                    </div>
+                  </div>
                 </TableCell>
                 <TableCell className="font-mono text-xs">
                   {s.stateCode}

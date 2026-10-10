@@ -10,10 +10,13 @@ import {
 } from "@clerk/nextjs";
 import {
   BarChart3,
+  Building,
   Building2,
   FileCheck2,
   FilePlus2,
   FolderLock,
+  FolderTree,
+  Globe,
   Layers,
   LayoutDashboard,
   Send,
@@ -201,11 +204,50 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                     <SidebarMenuItem>
                       <SidebarMenuButton
                         asChild
-                        isActive={pathname === "/dashboard/admin/sites"}
+                        isActive={pathname.startsWith(
+                          "/dashboard/admin/groups",
+                        )}
+                      >
+                        <Link href="/dashboard/admin/groups">
+                          <Globe className="h-4 w-4 shrink-0" />
+                          <span>Groups</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={pathname.startsWith(
+                          "/dashboard/admin/companies",
+                        )}
+                      >
+                        <Link href="/dashboard/admin/companies">
+                          <Building className="h-4 w-4 shrink-0" />
+                          <span>Companies</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={pathname.startsWith(
+                          "/dashboard/admin/business-units",
+                        )}
+                      >
+                        <Link href="/dashboard/admin/business-units">
+                          <FolderTree className="h-4 w-4 shrink-0" />
+                          <span>Business Units</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={pathname.startsWith("/dashboard/admin/sites")}
                       >
                         <Link href="/dashboard/admin/sites">
                           <Building2 className="h-4 w-4 shrink-0" />
-                          <span>Sites &amp; BUs</span>
+                          <span>Projects &amp; Sites</span>
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>

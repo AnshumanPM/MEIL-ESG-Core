@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getAuthContext } from "@/lib/auth";
 import { HqNotice } from "@/components/emissions/hq-notice";
 import { db } from "@/db";
-import { emissionEntries, businessUnits } from "@/db/schema";
+import { emissionEntries, businessUnits, companies, groups } from "@/db/schema";
 import { eq, and, sql, desc } from "drizzle-orm";
 import { clerkClient } from "@clerk/nextjs/server";
 import {
@@ -36,8 +36,15 @@ export default async function SiteDashboardPage() {
   const currentFy = "2026-2027";
 
   const [bu] = await db
-    .select()
+    .select({
+      id: businessUnits.id,
+      name: businessUnits.name,
+      companyName: companies.name,
+      groupName: groups.name,
+    })
     .from(businessUnits)
+    .leftJoin(companies, eq(businessUnits.companyId, companies.id))
+    .leftJoin(groups, eq(companies.groupId, groups.id))
     .where(eq(businessUnits.id, site.buId))
     .limit(1);
 
@@ -140,13 +147,18 @@ export default async function SiteDashboardPage() {
     <div className="w-full space-y-6">
       <div className="border-border flex flex-col justify-between gap-3 border-b pb-4 sm:flex-row sm:items-center">
         <div>
-          <div className="mb-1 flex items-center gap-2">
+          <div className="mb-1 flex flex-wrap items-center gap-1.5">
             <Badge variant="outline" className="font-mono text-xs">
               {site.id}
             </Badge>
             <Badge variant="secondary" className="text-xs">
               {bu?.name || site.buId}
             </Badge>
+            {bu?.companyName && (
+              <Badge variant="outline" className="text-xs">
+                {bu.companyName}
+              </Badge>
+            )}
             <Badge variant="outline" className="text-xs">
               {site.stateCode}
             </Badge>

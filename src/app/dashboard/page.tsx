@@ -3,7 +3,14 @@ import { redirect } from "next/navigation";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { OrganizationSwitcher } from "@clerk/nextjs";
 import { db } from "@/db";
-import { sites, businessUnits, emissionEntries, documents } from "@/db/schema";
+import {
+  sites,
+  businessUnits,
+  companies,
+  groups,
+  emissionEntries,
+  documents,
+} from "@/db/schema";
 import { eq, sql } from "drizzle-orm";
 import {
   Card,
@@ -39,7 +46,12 @@ export default async function DashboardOverviewPage() {
   const user = await currentUser();
 
   let site = null;
-  let bu = null;
+  let bu: {
+    id: string;
+    name: string;
+    companyName: string | null;
+    groupName: string | null;
+  } | null = null;
 
   if (orgId) {
     const siteRows = await db
@@ -51,8 +63,15 @@ export default async function DashboardOverviewPage() {
     if (siteRows.length > 0) {
       site = siteRows[0];
       const buRows = await db
-        .select()
+        .select({
+          id: businessUnits.id,
+          name: businessUnits.name,
+          companyName: companies.name,
+          groupName: groups.name,
+        })
         .from(businessUnits)
+        .leftJoin(companies, eq(businessUnits.companyId, companies.id))
+        .leftJoin(groups, eq(companies.groupId, groups.id))
         .where(eq(businessUnits.id, site.buId))
         .limit(1);
       if (buRows.length > 0) {
@@ -110,6 +129,27 @@ export default async function DashboardOverviewPage() {
           )}
         </div>
       </div>
+
+      {site && bu && (
+        <div className="border-border bg-card/60 flex flex-wrap items-center gap-1.5 rounded-lg border px-3.5 py-2 text-xs shadow-2xs">
+          <span className="text-muted-foreground text-[10px] font-semibold tracking-wider uppercase">
+            Hierarchy:
+          </span>
+          <span className="text-foreground font-semibold">
+            {bu.groupName || "MEIL Group"}
+          </span>
+          <span className="text-muted-foreground">/</span>
+          <span className="text-foreground font-medium">
+            {bu.companyName || "Operating Co."}
+          </span>
+          <span className="text-muted-foreground">/</span>
+          <span className="text-foreground font-medium">{bu.name}</span>
+          <span className="text-muted-foreground">/</span>
+          <Badge variant="secondary" className="font-mono text-[10px]">
+            {site.name} ({site.id})
+          </Badge>
+        </div>
+      )}
 
       {!orgId && (
         <Alert>

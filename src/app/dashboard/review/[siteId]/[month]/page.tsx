@@ -1,7 +1,14 @@
 import Link from "next/link";
 import { getAuthContext } from "@/lib/auth";
 import { db } from "@/db";
-import { emissionEntries, sites, businessUnits, documents } from "@/db/schema";
+import {
+  emissionEntries,
+  sites,
+  businessUnits,
+  companies,
+  groups,
+  documents,
+} from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import { clerkClient } from "@clerk/nextjs/server";
 import { ReviewWorkspace } from "@/components/emissions/review-workspace";
@@ -40,9 +47,13 @@ export default async function SubmissionReviewPage({
       buId: sites.buId,
       stateCode: sites.stateCode,
       buName: businessUnits.name,
+      companyName: companies.name,
+      groupName: groups.name,
     })
     .from(sites)
     .innerJoin(businessUnits, eq(sites.buId, businessUnits.id))
+    .leftJoin(companies, eq(businessUnits.companyId, companies.id))
+    .leftJoin(groups, eq(companies.groupId, groups.id))
     .where(eq(sites.id, siteId))
     .limit(1);
 
@@ -164,6 +175,9 @@ export default async function SubmissionReviewPage({
               {site.id}
             </Badge>
             <Badge variant="secondary">{site.buName}</Badge>
+            {site.companyName && (
+              <Badge variant="outline">{site.companyName}</Badge>
+            )}
             <Badge variant="outline">Period: {month}</Badge>
           </div>
           <h1 className="text-2xl font-bold tracking-tight">

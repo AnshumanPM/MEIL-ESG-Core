@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getAuthContext } from "@/lib/auth";
 import { db } from "@/db";
-import { emissionEntries, sites, businessUnits } from "@/db/schema";
+import { emissionEntries, sites, businessUnits, companies } from "@/db/schema";
 import { eq, inArray, and, sql } from "drizzle-orm";
 import {
   Card,
@@ -54,6 +54,7 @@ export default async function ReviewQueuePage() {
       siteName: sites.name,
       buId: sites.buId,
       buName: businessUnits.name,
+      companyName: companies.name,
       financialYear: emissionEntries.financialYear,
       entryCount: sql<number>`count(${emissionEntries.id})`,
       totalTco2e: sql<string>`coalesce(sum(${emissionEntries.tco2e}), 0)`,
@@ -61,12 +62,14 @@ export default async function ReviewQueuePage() {
     .from(emissionEntries)
     .innerJoin(sites, eq(emissionEntries.siteId, sites.id))
     .innerJoin(businessUnits, eq(sites.buId, businessUnits.id))
+    .leftJoin(companies, eq(businessUnits.companyId, companies.id))
     .where(and(eq(emissionEntries.status, "SUBMITTED"), siteFilterCondition))
     .groupBy(
       emissionEntries.siteId,
       sites.name,
       sites.buId,
       businessUnits.name,
+      companies.name,
       emissionEntries.financialYear,
     );
 
@@ -168,9 +171,16 @@ export default async function ReviewQueuePage() {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge variant="outline" className="text-[10px]">
-                      {sub.buId}
-                    </Badge>
+                    <div className="flex flex-col gap-0.5">
+                      <Badge variant="outline" className="w-fit text-[10px]">
+                        {sub.buId}
+                      </Badge>
+                      {sub.companyName && (
+                        <span className="text-muted-foreground max-w-[120px] truncate text-[10px]">
+                          {sub.companyName}
+                        </span>
+                      )}
+                    </div>
                   </TableCell>
                   <TableCell className="text-muted-foreground font-mono text-xs">
                     {sub.financialYear}
